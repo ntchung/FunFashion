@@ -10,4 +10,11 @@ LOCAL_LDLIBS := \
 
 LOCAL_ARM_MODE := arm
 
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../fairycore $(LOCAL_PATH)/../../../fashiongame
+
+LOCAL_WHOLE_STATIC_LIBRARIES := fashiongame_static fairycore_static
+
 include $(BUILD_SHARED_LIBRARY)
+
+$(call import-module,fashiongame)
+$(call import-module,fairycore)

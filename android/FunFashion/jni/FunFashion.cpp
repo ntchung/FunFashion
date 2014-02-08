@@ -8,7 +8,8 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-#define NULL 0
+#include "FashionGame.h"
+
 #define LOG(...)	__android_log_print(ANDROID_LOG_INFO, "FunFashion", __VA_ARGS__)
 
 #ifdef __cplusplus
@@ -44,6 +45,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *jvm, void *reserved)
 	}	
 	
 	isGameInited = false;
+	gameSetup();
 	
 	return JNI_VERSION_1_6;
 }
@@ -73,7 +75,7 @@ JNI_RENDERER_NAME(updateFrame)(JNIEnv *, jobject)
 {	
 	if( isGameInited )
 	{		
-		// TODO
+		gameUpdate();
 	}	
 }
 
@@ -86,7 +88,7 @@ JNI_RENDERER_NAME(renderFrame)(JNIEnv *, jobject)
 	glDepthMask( GL_TRUE );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );		
 	
-	// TODO
+	gameRender();
 }
 
 JNIEXPORT void JNICALL
@@ -94,16 +96,23 @@ JNI_RENDERER_NAME(initRendering)(JNIEnv* env, jobject obj)
 {
     LOG("initRendering");
 
-    // Define clear color
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);	
-	
 	if( !isGameInited )
 	{		
-		// TODO
 		isGameInited = true;
+		gameInit();
 	}
-	
-	// TODO
+}
+
+JNIEXPORT void JNICALL
+JNI_RENDERER_NAME(destroyRendering)(JNIEnv* env, jobject obj)
+{
+    LOG("destroyRendering");
+
+	if( isGameInited )
+	{		
+		isGameInited = false;
+		gameDestroy();
+	}	
 }
 
 

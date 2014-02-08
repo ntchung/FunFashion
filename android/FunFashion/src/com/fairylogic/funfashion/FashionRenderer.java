@@ -12,6 +12,7 @@ public class FashionRenderer implements GLSurfaceView.Renderer
     
     /** Native function for initializing the renderer. */
     public native void initRendering();    
+    public native void destroyRendering();
     
     /** Native function to update the renderer. */
     public native void updateRendering(int width, int height);
@@ -75,5 +76,10 @@ public class FashionRenderer implements GLSurfaceView.Renderer
 		renderFrame();		
 		
 		Thread.yield();
+    }
+    
+    public void onActivityDestroy()
+    {
+    	destroyRendering();
     }
 }
