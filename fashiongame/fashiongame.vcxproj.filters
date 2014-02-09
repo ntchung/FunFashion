@@ -24,12 +24,18 @@
     <ClInclude Include="FashionGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StateTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FashionGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,5 +9,6 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
 #include "FashionGame.h"
+#include "StateTest.h"
 
 #endif // __STDAFX_H__

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define NOMINMAX
 #include <windows.h>
 #include <TCHAR.h>
 

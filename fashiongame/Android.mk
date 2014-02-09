@@ -7,11 +7,12 @@ LOCAL_MODULE := fashiongame_static
 LOCAL_MODULE_FILENAME := libfashiongame
 
 LOCAL_SRC_FILES := \
-FashionGame.cpp
+FashionGame.cpp \
+StateTest.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)
+LOCAL_C_INCLUDES := $(LOCAL_PATH) $(LOCAL_PATH)/../fairycore
 
 LOCAL_LDLIBS := -lGLESv2 \
                 -llog \

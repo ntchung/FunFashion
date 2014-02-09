@@ -76,7 +76,7 @@ JNI_RENDERER_NAME(updateFrame)(JNIEnv *, jobject)
 	if( isGameInited )
 	{		
 		gameUpdate();
-	}	
+	}		
 }
 
 JNIEXPORT void JNICALL
@@ -99,7 +99,7 @@ JNI_RENDERER_NAME(initRendering)(JNIEnv* env, jobject obj)
 	if( !isGameInited )
 	{		
 		isGameInited = true;
-		gameInit();
+		gameInit();		
 	}
 }
 

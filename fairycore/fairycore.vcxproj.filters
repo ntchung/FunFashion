@@ -13,11 +13,20 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Camera">
-      <UniqueIdentifier>{54cc5f48-d93b-4d57-aae5-7cd8dc8703f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI">
+    <Filter Include="engine">
       <UniqueIdentifier>{d1e1c394-28ac-40b1-9665-4a2de8750631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{77330c7a-c6c7-4b92-a598-411bf8296c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="maths">
+      <UniqueIdentifier>{4af6aaa5-7868-4971-8d72-1b1735775bd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{0c8c4db6-3adc-48b6-afeb-3f2027a533a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{ac5ca6f5-10ef-4005-98ea-542e5645aa6e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,16 +39,118 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GUI.h">
-      <Filter>GUI</Filter>
+    <ClInclude Include="Transform.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\MemoryPool.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\FairyMacros.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\ObjectsPool.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="FairyCore.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="FairyHeart.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\DynamicArray.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\GameState.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="FairyTypes.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUI.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Stream.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\DebugLog.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\SharedObject.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\FileUtils.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\MemoryStream.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\StreamReader.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\String.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GUI.cpp">
-      <Filter>GUI</Filter>
+    <ClCompile Include="Transform.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\MemoryPool.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\ObjectsPool.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="FairyCore.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="FairyHeart.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUI.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\windows\DebugLog.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\SharedObject.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\FileUtils.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\windows\FileUtilsWindows.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\MemoryStream.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\StreamReader.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\String.cpp">
+      <Filter>utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
