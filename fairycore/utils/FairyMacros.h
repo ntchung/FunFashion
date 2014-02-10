@@ -19,7 +19,13 @@
 #define min(a,b)            (((a) < (b)) ? (a) : (b))
 #endif
 
-#define MIN_STRING_LENGTH	16
-#define MAX_STRING_LENGTH	1024
+#define MIN_STRING_LENGTH	32
+#define MAX_STRING_LENGTH	2048
+
+#ifdef _DEBUG
+#define ASSERT(_x)		assert(_x)
+#else
+#define ASSERT(_x)		((void)0)
+#endif
 
 #endif // __FAIRYMACROS_H__

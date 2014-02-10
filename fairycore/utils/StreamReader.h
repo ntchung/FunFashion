@@ -3,6 +3,7 @@
 
 #include "utils/SharedObject.h"
 #include "utils/Stream.h"
+#include "utils/String.h"
 
 class StreamReader : public SharedObject
 {
@@ -17,7 +18,8 @@ public:
 	int read();
 	int read(char* buffer, int index, int count);
 
-
+	String* readLine();
+	String* readToEnd();
 
 private:
 	StreamReader(Stream* input);
