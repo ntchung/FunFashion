@@ -147,6 +147,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="utils\DynamicArray.h" />
+    <ClInclude Include="utils\List.h" />
     <ClInclude Include="utils\GameState.h" />
     <ClInclude Include="utils\MemoryStream.h" />
     <ClInclude Include="utils\ObjectsPool.h" />

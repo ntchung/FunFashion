@@ -16,7 +16,7 @@ FileUtils::FileData& FileUtils::getFileData(const char* fileName)
 	fseek(fp, 0, SEEK_SET);
 
 	FileData res = findFreeFileDataSlot(size);			
-	size = fread(res.bytes, sizeof(unsigned char), size, fp);
+	res.size = fread(res.bytes, sizeof(unsigned char), size, fp);
 	fclose(fp);
 
 	return res;

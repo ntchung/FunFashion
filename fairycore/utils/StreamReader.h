@@ -8,16 +8,15 @@
 class StreamReader : public SharedObject
 {
 public:	
-	static StreamReader* create(Stream* input);
+	static StreamReader* create(Stream* input, bool isAutoRelease = true);
 	virtual void destroy();
 
 	bool endOfStream();
 	void close();
 
-	int peek();
 	int read();
-	int read(char* buffer, int index, int count);
 
+	int peek();
 	String* readLine();
 	String* readToEnd();
 
@@ -26,6 +25,14 @@ private:
 	~StreamReader();
 
 	Stream* m_baseStream;
+	int m_streamReadPosition;
+
+	char* m_charBuffer;
+	int m_charPos;
+	int m_charLength;
+	bool m_isEOF;
+
+	int readBuffer();
 };
 
 #endif // __STREAMREADER_H__

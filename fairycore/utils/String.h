@@ -7,18 +7,29 @@
 class String : public SharedObject
 {
 public:
-	static String* create();
-	static String* create(const char* value);
-	static String* create(const String& value);
+	static String* create(bool isAutoRelease = true);
+	static String* create(const char* value, bool isAutoRelease = true);
+	static String* create(const String& value, bool isAutoRelease = true);
 	virtual void destroy();
 
 	static void setup();
 
-	void Empty();
+	void empty();
+	unsigned short* getData() const;
+	unsigned int length() const;
 
-	const char* ToConstCharPtr() const;
+	void append(const char* str, int index, int count);
+	void trim();
+	void toUpper();
+	void toLower();
+	void subString(int start);
+	void subString(int start, int length);
 
-	unsigned int Length() const;
+	bool startsWith(unsigned short c);
+	bool endsWith(unsigned short c);
+	bool equals(const char* value);
+
+	static bool isSpace(unsigned short c);
 
 private:
 	String();
@@ -26,15 +37,15 @@ private:
 	String(const String& value);
 	~String();
 
-	unsigned short *Data;
-	unsigned int StringLength;
-	unsigned int DataCapacity;
+	unsigned short *m_data;
+	unsigned int m_stringLength;
+	unsigned int m_dataCapacity;
 
-	void InitString();
-	void AppendString(const unsigned short *str);
-	void SetString(const unsigned short *str);
-	void AppendString(const char *str);
-	void SetString(const char *str);
+	void initString();
+	void appendString(const unsigned short *str);
+	void setString(const unsigned short *str);
+	void appendString(const char *str);
+	void setString(const char *str);
 	
 	void requestNewData(int len);
 	void requestMoreData(int newLen);

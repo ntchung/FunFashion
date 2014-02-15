@@ -3,7 +3,7 @@
 
 #include "Camera.h"
 
-#include "utils/DynamicArray.h"
+#include "utils/List.h"
 
 class FairyHeart
 {
@@ -18,7 +18,7 @@ public:
 	void render();
 
 private:
-	DynamicArray<Camera*> m_cameras;
+	List<Camera*> m_cameras;
 };
 
 #endif // __FAIRYHEART_H__

@@ -28,4 +28,6 @@
 #define ASSERT(_x)		((void)0)
 #endif
 
+#define STREAM__BUFFER_SIZE		512
+
 #endif // __FAIRYMACROS_H__

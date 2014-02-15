@@ -12,7 +12,7 @@ public:
 	template <class T> T* load(const char* filename)
 	{
 		FileUtils::FileData fileData = FileUtils::shared()->getFileData(filename);		
-		T* obj = T::create(fileData.bytes);
+		T* obj = T::create(fileData.bytes, fileData.size);
 		FileUtils::shared()->recycleFileData(fileData);
 		return obj;
 	}

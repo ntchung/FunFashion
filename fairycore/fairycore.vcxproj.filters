@@ -60,9 +60,6 @@
     <ClInclude Include="FairyHeart.h">
       <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="utils\DynamicArray.h">
-      <Filter>utils</Filter>
-    </ClInclude>
     <ClInclude Include="utils\GameState.h">
       <Filter>utils</Filter>
     </ClInclude>
@@ -97,6 +94,12 @@
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\String.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\List.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\DynamicArray.h">
       <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>

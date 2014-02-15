@@ -14,6 +14,8 @@
 #include "platform/FileUtils.h"
 
 #include "utils/FairyMacros.h"
+#include "utils/DynamicArray.h"
+#include "utils/List.h"
 #include "utils/SharedObject.h"
 #include "utils/MemoryPool.h"
 #include "utils/ObjectsPool.h"
