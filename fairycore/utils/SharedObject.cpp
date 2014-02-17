@@ -10,6 +10,7 @@ SharedObject::SharedObject()
 
 void SharedObject::autorelease()
 {
+	ASSERT(!s_autoReleasePool.contains(this));
 	s_autoReleasePool.add(this);
 }
 

@@ -95,7 +95,6 @@ String* StreamReader::readLine()
 	}
 
 	String* pstr = String::create();
-	pstr->autorelease();
 	
 	do 
 	{
@@ -131,7 +130,6 @@ String* StreamReader::readLine()
 String* StreamReader::readToEnd()
 {
 	String* pstr = String::create();
-	pstr->autorelease();
 
 	do
 	{

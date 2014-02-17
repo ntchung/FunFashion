@@ -47,7 +47,7 @@ public:
 		m_array[m_count++] = elem;
 	}
 	
-	inline bool contains(T& elem)
+	inline bool contains(const T& elem)
 	{
 		for (int i = 0; i < m_count; ++i)
 		{

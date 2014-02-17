@@ -25,28 +25,11 @@ Shader::Shader(char* data, int length)
 		{
 			line->trim();
 
-			/*if (line->equals("[EFFECT]"))
+			if (line->equals("[EFFECT]"))
 			{
 				processEffectInfo(reader);
-			}*/
-
-			//line->release();
-		}		
-
-		++i;
-		if (i == 7)
-		{
-			i = i;
-		}
-		if (i > 7)
-		{
-			char* temp = new char[line->length() + 1];
-			for (int j = 0; j < line->length(); ++j)
-			{
-				temp[j] = line->getData()[j];
 			}
-			break;
-		}
+		}				
 	}
 }
 
@@ -75,7 +58,5 @@ void Shader::processEffectInfo(StreamReader* reader)
 
 			}
 		}
-
-		line->release();
 	}
 }
