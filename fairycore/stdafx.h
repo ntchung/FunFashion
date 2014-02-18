@@ -18,6 +18,7 @@
 
 #include "utils/FairyMacros.h"
 #include "utils/DynamicArray.h"
+#include "utils/Array.h"
 #include "utils/List.h"
 #include "utils/SharedObject.h"
 #include "utils/MemoryPool.h"

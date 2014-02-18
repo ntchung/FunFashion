@@ -29,7 +29,7 @@ Shader::Shader(char* data, int length)
 			{
 				processEffectInfo(reader);
 			}
-		}				
+		}		
 	}
 }
 
@@ -49,6 +49,7 @@ void Shader::processEffectInfo(StreamReader* reader)
 		if (line)
 		{
 			line->trim();
+
 			if (line->equals("[/EFFECT]"))
 			{
 				return;

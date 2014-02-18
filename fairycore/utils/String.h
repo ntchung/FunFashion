@@ -3,6 +3,7 @@
 
 #include "utils/SharedObject.h"
 #include "utils/ObjectsPool.h"
+#include "utils/List.h"
 
 class String : public SharedObject
 {
@@ -18,6 +19,8 @@ public:
 	unsigned short* getData() const;
 	unsigned int length() const;
 
+	String* clone();
+
 	void append(const char* str, int index, int count);
 	void trim();
 	void toUpper();
@@ -28,6 +31,8 @@ public:
 	bool startsWith(unsigned short c);
 	bool endsWith(unsigned short c);
 	bool equals(const char* value);
+
+	List<String>* split(const unsigned short* separator, int separatorCount);
 
 	static bool isSpace(unsigned short c);
 

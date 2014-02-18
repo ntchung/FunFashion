@@ -20,7 +20,7 @@ private:
 	int m_referenceCount;
 
 	static DynamicArray<SharedObject*> s_autoReleasePool;
-	bool autoRelease();
+	bool commenceRelease();
 };
 
 #endif // __SHAREDOBJECT_H__

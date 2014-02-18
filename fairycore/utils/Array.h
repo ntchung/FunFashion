@@ -1,44 +1,28 @@
-#ifndef __LIST_H__
-#define __LIST_H__
+#ifndef __ARRAY_H__
+#define __ARRAY_H__
 
 #include <string.h>
 #include "utils/SharedObject.h"
 #include "utils/ObjectsPool.h"
 #include "utils/FairyMacros.h"
 
-template <class T, int initCapacity = 16> class List : public SharedObject
+template <class T, int initCapacity = 16> class Array
 {
 public:	
-	static List* create(bool isAutoRelease = true)
-	{
-		List* ptr = new(true) List();
-		if (isAutoRelease)
-		{
-			ptr->autorelease();
-		}
-		return ptr;
-	}
-
-	virtual void destroy()
-	{
-		this->~List();
-		POOL(List)->deallocate(this);
-	}
-
-	List()
+	Array()
 	{
 		reset(initCapacity);
 	}
 
-	~List()
+	~Array()
 	{
 		m_usingMemoryPool->deallocate(m_array);
 	}
-	
+
 	void reset(int initCapacity)
 	{
 		initCapacity = max(initCapacity, 4);
-		
+
 		m_capacity = initCapacity;
 		m_count = 0;
 
@@ -60,7 +44,7 @@ public:
 
 		m_array[m_count++] = elem;
 	}
-	
+
 	inline bool contains(T& elem)
 	{
 		for (int i = 0; i < m_count; ++i)
@@ -104,7 +88,7 @@ private:
 	int m_capacity;
 	int m_count;
 
-	MemoryPool* m_usingMemoryPool;	
+	MemoryPool* m_usingMemoryPool;
 
 	void expand(int num)
 	{
@@ -124,4 +108,4 @@ private:
 	}
 };
 
-#endif // __LIST_H__
+#endif // __ARRAY_H__

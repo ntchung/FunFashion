@@ -32,7 +32,7 @@ void SharedObject::autoReleaseGC()
 {
 	for (int i = 0; i < s_autoReleasePool.count();)
 	{
-		if (s_autoReleasePool[i]->autoRelease())
+		if (s_autoReleasePool[i]->commenceRelease())
 		{
 			s_autoReleasePool.removeAt(i);
 		}
@@ -52,7 +52,7 @@ void SharedObject::autoReleasePurge()
 	s_autoReleasePool.clear();
 }
 
-bool SharedObject::autoRelease()
+bool SharedObject::commenceRelease()
 {
 	if (m_referenceCount <= 1)
 	{
