@@ -18,9 +18,11 @@ public:
 
 private:
 	int m_referenceCount;
+	bool m_isAutoRelease;
 
 	static DynamicArray<SharedObject*> s_autoReleasePool;
-	bool commenceRelease();
+	static bool s_isPurgingAutoReleasePool;
+	bool commenceDestroy();
 };
 
 #endif // __SHAREDOBJECT_H__

@@ -17,11 +17,15 @@ public:
 
 	void empty();
 	unsigned short* getData() const;
-	unsigned int length() const;
+	int length() const;
+
+	char* toCharArray(char* str) const;
 
 	String* clone();
 
 	void append(const char* str, int index, int count);
+	void append(const unsigned short *str);
+	void append(const char *str);
 	void trim();
 	void toUpper();
 	void toLower();
@@ -30,11 +34,19 @@ public:
 
 	bool startsWith(unsigned short c);
 	bool endsWith(unsigned short c);
+	bool startsWith(const char* value);
 	bool equals(const char* value);
+	bool equalsIgnoreCase(const char* value);
 
-	List<String>* split(const unsigned short* separator, int separatorCount);
+	List* split(const unsigned short* separator, int separatorCount);
+
+	int toInt() const;
+	float toFloat() const;
 
 	static bool isSpace(unsigned short c);
+	static bool isNumeric(unsigned short c);
+	static unsigned short upperCase(unsigned short c);
+	static unsigned short lowerCase(unsigned short c);
 
 private:
 	String();
@@ -43,13 +55,11 @@ private:
 	~String();
 
 	unsigned short *m_data;
-	unsigned int m_stringLength;
-	unsigned int m_dataCapacity;
+	int m_stringLength;
+	int m_dataCapacity;
 
-	void initString();
-	void appendString(const unsigned short *str);
-	void setString(const unsigned short *str);
-	void appendString(const char *str);
+	void initString();	
+	void setString(const unsigned short *str);	
 	void setString(const char *str);
 	
 	void requestNewData(int len);

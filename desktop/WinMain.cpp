@@ -1,6 +1,12 @@
 #include <stdio.h>
 #define NOMINMAX
 #include <windows.h>
+
+#ifdef _DEBUG
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
+#endif
+
 #include <TCHAR.h>
 
 #include <EGL/egl.h>
@@ -104,6 +110,8 @@ bool TestEGLError(HWND hWnd, char* pszLocation)
 ******************************************************************************/
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR *lpCmdLine, int nCmdShow)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	// Windows variables
 	HWND				hWnd = 0;
 	HDC					hDC = 0;
@@ -324,5 +332,7 @@ cleanup:
 	if (hDC) ReleaseDC(hWnd, hDC);
 
 	// Destroy the eglWindow
+
+	_CrtDumpMemoryLeaks();
 	return 0;
 }

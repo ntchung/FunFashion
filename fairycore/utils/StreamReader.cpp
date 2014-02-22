@@ -49,11 +49,14 @@ StreamReader::StreamReader(Stream* input)
 	m_charBuffer = (char*)g_readerBufferPool->allocate();
 	memset(m_charBuffer, 0, STREAM__BUFFER_SIZE);
 
+	m_baseStream->retain();
+
 	readBuffer();
 }
 
 StreamReader::~StreamReader()
 {
+	m_baseStream->release();
 	g_readerBufferPool->deallocate(m_charBuffer);
 }
 
@@ -122,8 +125,50 @@ String* StreamReader::readLine()
 
 		i = m_charLength - m_charPos;
 		pstr->append(m_charBuffer, m_charPos, i);
+		m_charPos += i;
 	} while (readBuffer() > 0);
 	
+	return pstr;
+}
+
+ByteArray* StreamReader::readLineToBytes()
+{
+	if (m_charPos == m_charLength)
+	{
+		if (readBuffer() == 0) return NULL;
+	}
+
+	ByteArray* pstr = ByteArray::create();
+
+	do
+	{
+		int i = m_charPos;
+		do
+		{
+			int ch = m_charBuffer[i];
+
+			// Note the following common line feed chars:
+			// \n - UNIX   \r\n - DOS   \r - Mac
+			if (ch == '\r' || ch == '\n')
+			{
+				pstr->append(m_charBuffer, m_charPos, i - m_charPos);
+
+				m_charPos = i + 1;
+				if (ch == '\r' && (m_charPos < m_charLength || readBuffer() > 0))
+				{
+					if (m_charBuffer[m_charPos] == '\n') m_charPos++;
+				}
+
+				return pstr;
+			}
+			i++;
+		} while (i < m_charLength);
+
+		i = m_charLength - m_charPos;
+		pstr->append(m_charBuffer, m_charPos, i);
+		m_charPos += i;
+	} while (readBuffer() > 0);
+
 	return pstr;
 }
 

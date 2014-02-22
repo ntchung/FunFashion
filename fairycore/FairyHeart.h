@@ -18,7 +18,7 @@ public:
 	void render();
 
 private:
-	List<Camera*> m_cameras;
+	List m_cameras;
 };
 
 #endif // __FAIRYHEART_H__

@@ -17,7 +17,7 @@ public:
 	static FileUtils* shared();
 	virtual void destroy();
 
-	FileData& getFileData(const char* fileName);
+	FileData getFileData(const char* fileName);
 	void recycleFileData(FileData& data);
 
 private:
@@ -25,7 +25,7 @@ private:
 	~FileUtils();	
 
 	DynamicArray<FileData, 8> m_listFileData;
-	FileData& findFreeFileDataSlot(int size);
+	FileData findFreeFileDataSlot(int size);
 };
 
 #endif // __FILEUTILS_H__

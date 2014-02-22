@@ -105,6 +105,36 @@
     <ClInclude Include="utils\Array.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="utils\PVRTPFXSemantics.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\ByteArray.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBatch.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\UIDGenerator.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\RecyclingMemory.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Mathf.h">
+      <Filter>maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Vector3f.h">
+      <Filter>maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Rectf.h">
+      <Filter>maths</Filter>
+    </ClInclude>
+    <ClInclude Include="maths\Vector2f.h">
+      <Filter>maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -157,6 +187,30 @@
     </ClCompile>
     <ClCompile Include="utils\String.cpp">
       <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\List.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\PVRTPFXSemantics.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\ByteArray.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBatch.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\UIDGenerator.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\RecyclingMemory.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="maths\Mathf.cpp">
+      <Filter>maths</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

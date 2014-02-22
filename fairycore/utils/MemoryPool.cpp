@@ -98,6 +98,7 @@ void MemoryPool::deallocate( void* pVoid )
 			// Add a hole to the free stack.
 			m_pFreeStack[m_nTOS] = pItem;
 			m_nTOS++;
+			ASSERT(m_nTOS <= m_nPoolSize);			
 
 			// If this pool is empty and it is the last in the linked list
 			// then delete it and set the previous pool to the last.

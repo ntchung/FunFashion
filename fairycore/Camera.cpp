@@ -15,12 +15,13 @@ Camera::Camera()
 : m_backgroundColor(1.0f, 1.0f, 1.0f, 1.0f)
 , m_clearType(DEPTH_AND_COLOR)
 {
-
+	m_renderBatches = List::create(false);
+	m_renderBatches->retain();
 }
 
 Camera::~Camera()
 {
-
+	m_renderBatches->release();
 }
 
 void Camera::present()

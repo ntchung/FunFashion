@@ -16,5 +16,6 @@ LOCAL_WHOLE_STATIC_LIBRARIES := fashiongame_static fairycore_static
 
 include $(BUILD_SHARED_LIBRARY)
 
+$(call import-add-path, ../..)
 $(call import-module,fashiongame)
 $(call import-module,fairycore)

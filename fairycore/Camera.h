@@ -5,6 +5,7 @@
 #include "FairyTypes.h"
 
 #include "utils/SharedObject.h"
+#include "utils/List.h"
 
 class Camera : public SharedObject
 {
@@ -29,6 +30,8 @@ protected:
 	//Transform* m_transform;
 	Color4F m_backgroundColor;
 	ClearType m_clearType;
+
+	List* m_renderBatches;
 };
 
 #endif // __CAMERA_H__

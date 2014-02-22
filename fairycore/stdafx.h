@@ -12,11 +12,18 @@
 #endif
 
 #include <GLES2/gl2.h>
+#include <math.h>
 
 #include "platform/DebugLog.h"
 #include "platform/FileUtils.h"
 
+#include "maths/Mathf.h"
+#include "maths/Vector2f.h"
+#include "maths/Vector3f.h"
+#include "maths/Rectf.h"
+
 #include "utils/FairyMacros.h"
+#include "utils/PVRTPFXSemantics.h"
 #include "utils/DynamicArray.h"
 #include "utils/Array.h"
 #include "utils/List.h"
@@ -25,15 +32,20 @@
 #include "utils/ObjectsPool.h"
 #include "utils/GameState.h"
 #include "utils/String.h"
+#include "utils/ByteArray.h"
+#include "utils/RecyclingMemory.h"
 #include "utils/Stream.h"
 #include "utils/MemoryStream.h"
 #include "utils/StreamReader.h"
+#include "utils/UIDGenerator.h"
 
 #include "FairyTypes.h"
 #include "Resources.h"
 #include "Transform.h"
-#include "Camera.h"
 #include "Shader.h"
+#include "Material.h"
+#include "RenderBatch.h"
+#include "Camera.h"
 #include "FairyHeart.h"
 #include "FairyCore.h"
 

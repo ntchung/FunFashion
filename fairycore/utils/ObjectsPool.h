@@ -29,5 +29,6 @@ private:
 #define POOL_FREE(_type, _obj) ObjectsPool::shared()->get(sizeof(_type))->deallocate(_obj);
 
 void* operator new(size_t sz, bool usePool);
+void operator delete(void* ptr, bool usePool);
 
 #endif // __OBJECTSPOOL_H__

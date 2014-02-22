@@ -4,12 +4,12 @@
 #include <string.h>
 #include "utils/FairyMacros.h"
 
-template <class T, int initCapacity = 32> class DynamicArray
+template <class T, int initialCapacity = 32> class DynamicArray
 {
 public:
 	DynamicArray()		
 	{		
-		reset(initCapacity);
+		reset(initialCapacity);
 	}
 
 	~DynamicArray()
@@ -73,6 +73,11 @@ public:
 	inline void removeAt(int index)
 	{
 		m_array[index] = m_array[--m_count];
+	}
+
+	inline void removeTail()
+	{
+		--m_count;
 	}
 
 	inline T& pop()

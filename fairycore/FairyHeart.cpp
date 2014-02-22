@@ -26,6 +26,6 @@ void FairyHeart::render()
 {
 	for (int i = 0; i < m_cameras.count(); ++i)
 	{
-		m_cameras[i]->present();
+		((Camera*)m_cameras[i])->present();
 	}
 }

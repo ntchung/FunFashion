@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "utils/String.h"
 
 void fairyCoreInit()
 {
 	ObjectsPool::shared();
 	Resources::shared();
 
+	ByteArray::setup();
 	String::setup();
 }
 

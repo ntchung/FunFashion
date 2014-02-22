@@ -4,6 +4,7 @@
 #include "utils/SharedObject.h"
 #include "utils/Stream.h"
 #include "utils/String.h"
+#include "utils/ByteArray.h"
 
 class StreamReader : public SharedObject
 {
@@ -19,6 +20,8 @@ public:
 	int peek();
 	String* readLine();
 	String* readToEnd();
+
+	ByteArray* readLineToBytes();
 
 private:
 	StreamReader(Stream* input);

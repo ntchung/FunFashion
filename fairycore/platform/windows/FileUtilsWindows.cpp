@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <stdio.h>
 
-FileUtils::FileData& FileUtils::getFileData(const char* fileName)
+FileUtils::FileData FileUtils::getFileData(const char* fileName)
 {
 	char fullPath[_MAX_PATH];
 	memset(fullPath, 0, _MAX_PATH);
@@ -16,7 +16,7 @@ FileUtils::FileData& FileUtils::getFileData(const char* fileName)
 	fseek(fp, 0, SEEK_SET);
 
 	FileData res = findFreeFileDataSlot(size);			
-	res.size = fread(res.bytes, sizeof(unsigned char), size, fp);
+	res.size = (int)fread(res.bytes, sizeof(unsigned char), size, fp);
 	fclose(fp);
 
 	return res;

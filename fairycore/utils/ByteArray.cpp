@@ -2,18 +2,18 @@
 #include <assert.h>
 #include <string>
 
-ObjectsPool* String::s_stringsPool = 0;
+ObjectsPool* ByteArray::s_memoryPool = 0;
 
-void String::setup()
+void ByteArray::setup()
 {
-	s_stringsPool = new ObjectsPool(MIN_STRING_LENGTH, MAX_STRING_LENGTH);
-	s_stringsPool->autorelease();
-	s_stringsPool->retain();
+	s_memoryPool = new ObjectsPool(MIN_STRING_LENGTH, MAX_STRING_LENGTH);
+	s_memoryPool->autorelease();
+	s_memoryPool->retain();
 }
 
-String* String::create(bool isAutoRelease)
+ByteArray* ByteArray::create(bool isAutoRelease)
 {
-	String* ptr = new(true) String();
+	ByteArray* ptr = new(true) ByteArray();
 	if (isAutoRelease)
 	{
 		ptr->autorelease();
@@ -21,9 +21,9 @@ String* String::create(bool isAutoRelease)
 	return ptr;
 }
 
-String* String::create(const char* value, bool isAutoRelease)
+ByteArray* ByteArray::create(const char* value, bool isAutoRelease)
 {
-	String* ptr = new(true) String(value);
+	ByteArray* ptr = new(true) ByteArray(value);
 	if (isAutoRelease)
 	{
 		ptr->autorelease();
@@ -31,94 +31,55 @@ String* String::create(const char* value, bool isAutoRelease)
 	return ptr;
 }
 
-String* String::create(const String& value, bool isAutoRelease)
+void ByteArray::destroy()
 {
-	String* ptr = new(true) String(value);
-	if (isAutoRelease)
-	{
-		ptr->autorelease();
-	}
-	return ptr;
+	this->~ByteArray();
+	POOL(ByteArray)->deallocate(this);
 }
 
-void String::destroy()
-{
-	this->~String();
-	POOL(String)->deallocate(this);
-}
-
-String::String()
+ByteArray::ByteArray()
 {
 	initString();
 }
 
-String::String(const char* value)
+ByteArray::ByteArray(const char* value)
 {
 	initString();
 	setString(value);
 }
 
-String::String(const String& value)
+ByteArray::~ByteArray()
 {
-	initString();
-	setString(value.m_data);
+	s_memoryPool->get(m_dataCapacity)->deallocate(m_data);
 }
 
-String::~String()
-{
-	s_stringsPool->get(m_dataCapacity)->deallocate(m_data);
-}
-
-unsigned short* String::getData() const
+char* ByteArray::cstr() const
 {
 	return m_data;
 }
 
-int String::length() const
+int ByteArray::length() const
 {
 	return m_stringLength;
 }
 
-void String::initString() 
+void ByteArray::initString() 
 {
 	m_stringLength = 0;
-	m_dataCapacity = s_stringsPool->getMinimalCapacity(0);
-	m_data = (unsigned short*)s_stringsPool->get(m_dataCapacity)->allocate();
-	m_data[0] = '\0';
+	m_dataCapacity = s_memoryPool->getMinimalCapacity(0);
+	m_data = (char*)s_memoryPool->get(m_dataCapacity)->allocate();
+	m_data[0] = 0;
 }
 
-void String::append(const char *str) 
+void ByteArray::append(const char *str)
 {
 	int len = str ? (int)strlen(str) : 0;
-	if (len) {
-		if (m_stringLength) 
-		{
-			requestMoreData(m_stringLength + len);
-
-			unsigned short* ptr = m_data + m_stringLength;
-			for (int i = 0; i < len; ++i)
-			{
-				ptr[i] = str[i];
-			}
-			m_stringLength += len;
-			m_data[m_stringLength] = 0;
-		}
-		else 
-		{
-			setString(str);
-		}
-	}
-}
-
-void String::append(const unsigned short *str)
-{
-	int len = str ? wstrlen(str) : 0;
 	if (len) {
 		if (m_stringLength)
 		{
 			requestMoreData(m_stringLength + len);
 
-			memcpy(m_data + m_stringLength, str, len * sizeof(unsigned short));			
+			memcpy(m_data + m_stringLength, str, len);			
 			m_stringLength += len;
 			m_data[m_stringLength] = 0;
 		}
@@ -129,35 +90,14 @@ void String::append(const unsigned short *str)
 	}
 }
 
-void String::setString(const char *str) 
+void ByteArray::setString(const char *str)
 {
 	int len = str ? (int)strlen(str) : 0;
-
-	if (len)
-	{
-		requestNewData(len);
-
-		for (int i = 0; i < len; ++i)
-		{
-			m_data[i] = str[i];
-		}
-		m_data[len] = '\0';
-		m_stringLength = len;
-	}
-	else
-	{
-		empty();
-	}
-}
-
-void String::setString(const unsigned short *str)
-{
-	int len = str ? wstrlen(str) : 0;
 	if (len)
 	{		
 		requestNewData(len);
 
-		memcpy(m_data, str, len * sizeof(unsigned short));
+		memcpy(m_data, str, len);
 		m_data[len] = '\0';
 		m_stringLength = len;
 	}
@@ -167,56 +107,46 @@ void String::setString(const unsigned short *str)
 	}
 }
 
-void String::empty() 
+void ByteArray::empty() 
 {
 	if (m_stringLength) 
 	{
-		s_stringsPool->get(m_dataCapacity)->deallocate(m_data);
+		s_memoryPool->get(m_dataCapacity)->deallocate(m_data);
 		initString();
 	}
 }
 
-void String::requestNewData(int len)
+void ByteArray::requestNewData(int len)
 {
-	int newCapacity = s_stringsPool->getMinimalCapacity((len + 1) * sizeof(unsigned short));
+	int newCapacity = s_memoryPool->getMinimalCapacity(len + 1);
 	if (newCapacity != m_dataCapacity)
 	{
 		empty();
 
 		m_dataCapacity = newCapacity;
-		m_data = (unsigned short*)s_stringsPool->get(m_dataCapacity)->allocate();
+		m_data = (char*)s_memoryPool->get(m_dataCapacity)->allocate();
 		m_data[len] = 0;
 	}
 }
 
-void String::requestMoreData(int newLen)
+void ByteArray::requestMoreData(int newLen)
 {
 	++newLen;
-	if (newLen*sizeof(unsigned short) > m_dataCapacity)
+	if (newLen > m_dataCapacity)
 	{
-		int newDataCapacity = s_stringsPool->getMinimalCapacity(newLen * sizeof(unsigned short));
-		unsigned short* newData = (unsigned short*)s_stringsPool->get(newDataCapacity)->allocate();
+		int newDataCapacity = s_memoryPool->getMinimalCapacity(newLen);
+		char* newData = (char*)s_memoryPool->get(newDataCapacity)->allocate();
 
-		memcpy(newData, m_data, m_stringLength * sizeof(unsigned short));
-		newData[m_stringLength] = '\0';
-		s_stringsPool->get(m_dataCapacity)->deallocate(m_data);		
+		memcpy(newData, m_data, m_stringLength);
+		s_memoryPool->get(m_dataCapacity)->deallocate(m_data);
+		newData[m_stringLength] = 0;
 
 		m_data = newData;
 		m_dataCapacity = newDataCapacity;
 	}
 }
 
-int String::wstrlen(const unsigned short* str)
-{
-	int res = 0;
-	while (*str++)
-	{
-		++res;
-	}
-	return res;
-}
-
-void String::append(const char* str, int index, int count)
+void ByteArray::append(const char* str, int index, int count)
 {
 	if (count) 
 	{
@@ -229,18 +159,14 @@ void String::append(const char* str, int index, int count)
 			requestNewData(count);			
 		}
 
-		unsigned short* ptr = m_data + m_stringLength;
-		for (int i = 0; i < count; ++i)
-		{
-			ptr[i] = str[index + i];
-		}
-
+		memcpy(m_data + m_stringLength, str + index, count);
+		
 		m_stringLength += count;
 		m_data[m_stringLength] = 0;
 	}
 }
 
-void String::trim()
+void ByteArray::trim()
 {
 	int i;
 	int left = 0;
@@ -270,22 +196,22 @@ void String::trim()
 	}
 }
 
-bool String::isNumeric(unsigned short c)
+bool ByteArray::isNumeric(char c)
 {
 	return !(c < '0' || c > '9');
 }
 
-bool String::isSpace(unsigned short c)
+bool ByteArray::isSpace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f');
 }
 
-void String::subString(int start)
+void ByteArray::subString(int start)
 {
 	return subString(start, m_stringLength - start);
 }
 
-void String::subString(int start, int length)
+void ByteArray::subString(int start, int length)
 {
 	int i;
 	for (i = 0; i < length; ++i)
@@ -297,17 +223,17 @@ void String::subString(int start, int length)
 	m_stringLength = length;
 }
 
-bool String::startsWith(unsigned short c)
+bool ByteArray::startsWith(char c)
 {
 	return m_data[0] == c;
 }
 
-bool String::endsWith(unsigned short c)
+bool ByteArray::endsWith(char c)
 {
 	return m_data[m_stringLength - 1] == c;
 }
 
-void String::toUpper()
+void ByteArray::toUpper()
 {
 	for (int i = 0; i < m_stringLength; ++i)
 	{
@@ -316,16 +242,16 @@ void String::toUpper()
 	}
 }
 
-void String::toLower()
+void ByteArray::toLower()
 {
 	for (int i = 0; i < m_stringLength; ++i)
 	{
-		unsigned short c = m_data[i];
+		char c = m_data[i];
 		m_data[i] = (c < 'A' || c > 'Z') ? c : (c - 'A') + 'a';
 	}
 }
 
-bool String::startsWith(const char* value)
+bool ByteArray::startsWith(const char* value)
 {
 	int len = (int)strlen(value);
 	if (m_stringLength < len)
@@ -344,7 +270,7 @@ bool String::startsWith(const char* value)
 	return true;
 }
 
-bool String::equals(const char* value)
+bool ByteArray::equals(const char* value)
 {
 	int len = (int)strlen(value);
 	if (m_stringLength != len)
@@ -363,7 +289,7 @@ bool String::equals(const char* value)
 	return true;
 }
 
-bool String::equalsIgnoreCase(const char* value)
+bool ByteArray::equalsIgnoreCase(const char* value)
 {
 	int len = (int)strlen(value);
 	if (m_stringLength != len)
@@ -382,7 +308,7 @@ bool String::equalsIgnoreCase(const char* value)
 	return true;
 }
 
-List* String::split(const unsigned short* separator, int separatorCount)
+List* ByteArray::split(const char* separator, int separatorCount)
 {
 	List* res = List::create();
 
@@ -390,7 +316,7 @@ List* String::split(const unsigned short* separator, int separatorCount)
 
 	if (separator == NULL)
 	{
-		unsigned short* src_ptr = m_data;
+		char* src_ptr = m_data;
 		int len = m_stringLength;
 
 		while (len > 0) 
@@ -404,14 +330,14 @@ List* String::split(const unsigned short* separator, int separatorCount)
 	}
 	else 
 	{
-		unsigned short* src_ptr = m_data;
-		unsigned short* sep_src = (unsigned short*)separator;				
-		unsigned short* sep_ptr_end = sep_src + separatorCount;
+		char* src_ptr = m_data;
+		char* sep_src = (char*)separator;				
+		char* sep_ptr_end = sep_src + separatorCount;
 
 		int len = m_stringLength;
 		while (len > 0) 
 		{
-			unsigned short* sep_ptr = sep_src;
+			char* sep_ptr = sep_src;
 			do 
 			{
 				if (*sep_ptr++ == *src_ptr) 
@@ -438,18 +364,18 @@ List* String::split(const unsigned short* separator, int separatorCount)
 	{
 		int start = split_points[i];
 
-		String* str = String::create(*this);
+		ByteArray* str = ByteArray::create(m_data);
 		str->subString(prev_index, start - prev_index);
 		str->trim();
 		if (str->length() > 0)
 		{
-			res->add(str);
+			//res->add(str);
 		}
 
 		prev_index = start + 1;
 	}
 
-	String* str = String::create(*this);
+	ByteArray* str = ByteArray::create(m_data);
 	str->subString(prev_index, m_stringLength - prev_index);
 	str->trim();
 	if (str->length() > 0)
@@ -460,10 +386,10 @@ List* String::split(const unsigned short* separator, int separatorCount)
 	return res;
 }
 
-int String::toInt() const
+int ByteArray::toInt() const
 {
 	int mul = 1;
-	unsigned short c;
+	char c;
 	int number = 0;
 
 	for (int i = m_stringLength - 1; i >= 0; --i) 
@@ -498,10 +424,10 @@ int String::toInt() const
 	return number;
 }
 
-float String::toFloat() const 
+float ByteArray::toFloat() const 
 {
 	int mul = 1;
-	unsigned short c;
+	char c;
 	int int_part = 0;
 	float prec_part = 0;
 
@@ -538,23 +464,12 @@ float String::toFloat() const
 	return int_part + prec_part;
 }
 
-char* String::toCharArray(char* str) const
-{
-	int i;
-	for (i = 0; i < m_stringLength; ++i)
-	{
-		str[i] = (char)m_data[i];
-	}
-	str[i] = '\0';
-	return str;
-}
-
-unsigned short String::upperCase(unsigned short c)
+char ByteArray::upperCase(char c)
 {
 	return (c < 'a' || c > 'z') ? c : (c - 'a') + 'A';
 }
 
-unsigned short String::lowerCase(unsigned short c)
+char ByteArray::lowerCase(char c)
 {
 	return (c < 'A' || c > 'Z') ? c : (c - 'A') + 'a';
 }

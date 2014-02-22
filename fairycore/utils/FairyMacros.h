@@ -28,6 +28,14 @@
 #define ASSERT(_x)		((void)0)
 #endif
 
+#ifndef INT_MAX
+#define INT_MAX       2147483647    /* maximum (signed) int value */
+#endif
+
 #define STREAM__BUFFER_SIZE		512
+
+#define GL_DEPTH_SORT_NONE				0x8D00
+#define GL_DEPTH_SORT_FRONT_TO_BACK		0x8D01
+#define GL_DEPTH_SORT_BACK_TO_FRONT		0x8D02
 
 #endif // __FAIRYMACROS_H__

@@ -37,7 +37,7 @@ void FileUtils::recycleFileData(FileData& data)
 	m_listFileData.add(data);
 }
 
-FileUtils::FileData& FileUtils::findFreeFileDataSlot(int size)
+FileUtils::FileData FileUtils::findFreeFileDataSlot(int size)
 {
 	FileData res;
 

@@ -6,12 +6,12 @@
 #include "utils/ObjectsPool.h"
 #include "utils/FairyMacros.h"
 
-template <class T, int initCapacity = 16> class Array
+template <class T, int initialCapacity = 16> class Array
 {
 public:	
 	Array()
 	{
-		reset(initCapacity);
+		reset(initialCapacity);
 	}
 
 	~Array()

@@ -78,5 +78,10 @@ int ObjectsPool::getMinimalCapacity(int size) const
 
 void* operator new(size_t sz, bool usePool)
 {
-	return ObjectsPool::shared()->get(sz)->allocate();
+	return ObjectsPool::shared()->get((int)sz)->allocate();
+}
+
+void operator delete(void* ptr, bool usePool)
+{
+	return; // dummy
 }
