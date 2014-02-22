@@ -140,7 +140,10 @@
     <ClInclude Include="FairyTypes.h" />
     <ClInclude Include="gui\GUI.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="maths\Color32.h" />
     <ClInclude Include="maths\Mathf.h" />
+    <ClInclude Include="maths\Maths.h" />
+    <ClInclude Include="maths\Matrix4x4.h" />
     <ClInclude Include="maths\Rectf.h" />
     <ClInclude Include="maths\Vector2f.h" />
     <ClInclude Include="maths\Vector3f.h" />
@@ -176,6 +179,7 @@
     <ClCompile Include="gui\GUI.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="maths\Mathf.cpp" />
+    <ClCompile Include="maths\Matrix4x4.cpp" />
     <ClCompile Include="platform\FileUtils.cpp" />
     <ClCompile Include="platform\windows\DebugLog.cpp" />
     <ClCompile Include="platform\windows\FileUtilsWindows.cpp" />

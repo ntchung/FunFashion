@@ -68,7 +68,12 @@ public:
 		return m_array[index];
 	}
 
-	inline int count()
+	inline T& operator[](int index) const
+	{
+		return m_array[index];
+	}
+
+	inline int count() const
 	{
 		return m_count;
 	}

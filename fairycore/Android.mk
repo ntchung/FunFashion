@@ -32,6 +32,7 @@ utils/String.cpp \
 utils/StreamReader.cpp \
 utils/UIDGenerator.cpp \
 maths/Mathf.cpp \
+maths/Matrix4x4.cpp \
 gui/GUI.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)

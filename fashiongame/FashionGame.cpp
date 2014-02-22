@@ -58,3 +58,8 @@ void gameRender()
 	g_currentState->render();
 	g_fairyHeart->render();
 }
+
+GUI* gui()
+{
+	return g_gui;
+}

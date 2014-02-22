@@ -65,7 +65,50 @@ void RenderBatch::draw()
 		return;
 	}
 
+	int i;	
+	Shader* shader = m_material->shader();
+	const Array<SPVRTPFXUniform>& uniforms = shader->uniforms();
 
+	glUseProgram(shader->shaderProgram());
+	
+	// Attributes and Uniforms
+	for (i = 0; i < uniforms.count(); ++i)
+	{
+		const SPVRTPFXUniform& uniform = uniforms[i];
+		switch (uniform.nSemantic)
+		{
+		case ePVRTPFX_UsPOSITION:
+			glVertexAttribPointer(uniform.nLocation, 3, GL_FLOAT, GL_FALSE, 0, m_positions);
+			glEnableVertexAttribArray(uniform.nLocation);			
+			break;
+
+		case ePVRTPFX_UsVERTEXCOLOR:
+			glVertexAttribPointer(uniform.nLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, m_vertexColors);
+			glEnableVertexAttribArray(uniform.nLocation);
+			break;
+		}		
+	}
+
+	glDrawElements(GL_TRIANGLES, m_indicesCount, GL_UNSIGNED_SHORT, m_indices);
+
+	// Clean up
+	for (i = 0; i < uniforms.count(); ++i)
+	{
+		const SPVRTPFXUniform& uniform = uniforms[i];
+		switch (uniform.nSemantic)
+		{
+		case ePVRTPFX_UsPOSITION:
+		case ePVRTPFX_UsNORMAL:
+		case ePVRTPFX_UsTANGENT:
+		case ePVRTPFX_UsBINORMAL:
+		case ePVRTPFX_UsUV:
+		case ePVRTPFX_UsVERTEXCOLOR:
+		case ePVRTPFX_UsBONEINDEX:
+		case ePVRTPFX_UsBONEWEIGHT:
+			glDisableVertexAttribArray(uniform.nLocation);
+			break;		
+		}
+	}
 }
 
 void RenderBatch::clear()
@@ -124,5 +167,12 @@ void RenderBatch::addIndices(GLushort* indices, int count)
 void RenderBatch::addVerticesP(GLfloat* positions, int count)
 {
 	memcpy(m_positions + m_verticesCount * 3, positions, count * 3 * sizeof(GLfloat));
+	m_verticesCount += count;
+}
+
+void RenderBatch::addVerticesPC(GLfloat* positions, GLubyte* vertexColors, int count)
+{
+	memcpy(m_positions + m_verticesCount * 3, positions, count * 3 * sizeof(GLfloat));
+	memcpy(m_vertexColors + m_verticesCount * 4, vertexColors, count * 4 * sizeof(GLfloat));
 	m_verticesCount += count;
 }

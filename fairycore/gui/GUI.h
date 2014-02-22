@@ -1,6 +1,8 @@
 #ifndef __GUI_H__
 #define __GUI_H__
 
+#include "maths/Maths.h"
+
 #include "Camera.h"
 #include "RenderBatch.h"
 
@@ -12,14 +14,15 @@ public:
 
 	virtual void present();
 
-	//void fillRect(
+	void fillRect(const Rectf& position, const Color32& color);
 
 protected:
 	GUI();
 	virtual ~GUI();
 
-	Material* m_guiMaterial;
-	RenderBatch* m_guiRenderBatch;
+	RenderBatch* m_guiFillRectRenderBatch;
+
+	int m_fillRectCount;
 };
 
 #endif // __GUI_H__

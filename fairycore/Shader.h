@@ -23,6 +23,11 @@ public:
 	virtual void destroy();
 
 	bool isAttributeRequired(int n) const;
+	int numAttributesRequired() const;
+
+	GLuint shaderProgram() const;
+
+	Array<SPVRTPFXUniform>& uniforms() const;
 
 private:
 	Shader(char* data, int length);
@@ -58,6 +63,7 @@ private:
 	GLuint m_fragmentShader;
 
 	bool m_isAttributeRequired[SEMANTIC_ATTRIBUTES_NUM];
+	int m_numAttributesRequired;
 
 	void setDefaults();
 

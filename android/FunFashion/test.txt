@@ -1,4 +1,0 @@
-Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 8 in ./AndroidManifest.xml    
-Android NDK: WARNING:../../fairycore/Android.mk:fairycore_static: LOCAL_LDLIBS is always ignored for static libraries    
-Android NDK: WARNING:../../fashiongame/Android.mk:fashiongame_static: LOCAL_LDLIBS is always ignored for static libraries    
-[armeabi] SharedLibrary  : libFunFashion.so

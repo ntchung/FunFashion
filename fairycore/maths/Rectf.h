@@ -1,278 +1,192 @@
 #ifndef __RECT_H__
 #define __RECT_H__
 
+#include "maths/Vector2f.h"
 #include "maths/Vector3f.h"
 
 struct Rectf
 {
 public:	
-	/*public Vector2 center
+	inline Vector2f center()
 	{
-		get
-		{
-		return new Vector2(this.x + this.m_Width / 2f, this.y + this.m_Height / 2f);
-	}
-		set
-		{
-			this.m_XMin = value.x - this.m_Width / 2f;
-			this.m_YMin = value.y - this.m_Height / 2f;
-		}
+		return Vector2f(this->m_XMin + this->m_Width / 2.f, this->m_YMin + this->m_Height / 2.f);
 	}
 
-	public float height
+	inline void setCenter(const Vector2f& value)
 	{
-		get
-		{
-		return this.m_Height;
-	}
-		set
-		{
-			this.m_Height = value;
-		}
+		this->m_XMin = value.x - this->m_Width / 2.f;
+		this->m_YMin = value.y - this->m_Height / 2.f;
 	}
 
-	[Obsolete("use xMin")]
-	public float left
+	inline float height() const
 	{
-		get
-		{
-		return this.m_XMin;
-	}
+		return this->m_Height;
 	}
 
-	[Obsolete("use xMax")]
-	public float right
+	inline void setHeight(float value)
 	{
-		get
-		{
-		return this.m_XMin + this.m_Width;
-	}
+		this->m_Height = value;
 	}
 
-	[Obsolete("use yMin")]
-	public float top
+	inline float width() const
 	{
-		get
-		{
-		return this.m_YMin;
-	}
+		return this->m_Width;
 	}
 
-	public float width
+	inline void setWidth(float value)
 	{
-		get
-		{
-		return this.m_Width;
-	}
-		set
-		{
-			this.m_Width = value;
-		}
+		this->m_Width = value;
 	}
 
-	public float x
+	inline float x() const
 	{
-		get
-		{
-		return this.m_XMin;
-	}
-		set
-		{
-			this.m_XMin = value;
-		}
+		return this->m_XMin;
 	}
 
-	public float xMax
+	inline void setX(float value)
 	{
-		get
-		{
-		return this.m_Width + this.m_XMin;
-	}
-		set
-		{
-			this.m_Width = value - this.m_XMin;
-		}
+		this->m_XMin = value;
 	}
 
-	public float xMin
+	inline float xMax() const
 	{
-		get
-		{
-		return this.m_XMin;
-	}
-		set
-		{
-			float xMax = this.xMax;
-			this.m_XMin = value;
-			this.m_Width = xMax - this.m_XMin;
-		}
+		return this->m_Width + this->m_XMin;
 	}
 
-	public float y
+	inline void setXMax(float value)
 	{
-		get
-		{
-		return this.m_YMin;
-	}
-		set
-		{
-			this.m_YMin = value;
-		}
+		this->m_Width = value - this->m_XMin;
 	}
 
-	public float yMax
+	inline float xMin() const
 	{
-		get
-		{
-		return this.m_Height + this.m_YMin;
-	}
-		set
-		{
-			this.m_Height = value - this.m_YMin;
-		}
+		return this->m_XMin;
 	}
 
-	public float yMin
+	inline void setXMin(float value)
 	{
-		get
-		{
-		return this.m_YMin;
+		float xMax = this->xMax();
+		this->m_XMin = value;
+		this->m_Width = xMax - this->m_XMin;
 	}
-		set
-		{
-			float yMax = this.yMax;
-			this.m_YMin = value;
-			this.m_Height = yMax - this.m_YMin;
-		}
+
+	inline float y() const
+	{
+		return this->m_YMin;
+	}
+
+	inline void setY(float value)
+	{
+		this->m_YMin = value;
+	}
+
+	inline float yMax() const
+	{
+		return this->m_Height + this->m_YMin;
+	}
+
+	inline void setYMax(float value)
+	{
+		this->m_Height = value - this->m_YMin;
+	}
+
+	inline float yMin() const
+	{
+		return this->m_YMin;
+	}
+
+	inline void setYMin(float value)
+	{
+		float yMax = this->yMax();
+		this->m_YMin = value;
+		this->m_Height = yMax - this->m_YMin;
 	}
 
 	//
 	// Constructors
 	//
-	public Rect(Rect source)
+	Rectf(const Rectf& source)
 	{
-		this.m_XMin = source.m_XMin;
-		this.m_YMin = source.m_YMin;
-		this.m_Width = source.m_Width;
-		this.m_Height = source.m_Height;
+		this->m_XMin = source.m_XMin;
+		this->m_YMin = source.m_YMin;
+		this->m_Width = source.m_Width;
+		this->m_Height = source.m_Height;
 	}
 
-	public Rect(float left, float top, float width, float height)
+	Rectf(float left, float top, float width, float height)
 	{
-		this.m_XMin = left;
-		this.m_YMin = top;
-		this.m_Width = width;
-		this.m_Height = height;
+		this->m_XMin = left;
+		this->m_YMin = top;
+		this->m_Width = width;
+		this->m_Height = height;
 	}
 
 	//
 	// Static Methods
 	//
-	public static Rect MinMaxRect(float left, float top, float right, float bottom)
+	inline static Rectf MinMaxRect(float left, float top, float right, float bottom)
 	{
-		return new Rect(left, top, right - left, bottom - top);
+		return Rectf(left, top, right - left, bottom - top);
 	}
 
 	//
 	// Methods
 	//
-	public bool Contains(Vector2 point)
+	inline bool Contains(const Vector2f& point)
 	{
-		return point.x >= this.xMin && point.x < this.xMax && point.y >= this.yMin && point.y < this.yMax;
+		return point.x >= this->xMin() && point.x < this->xMax() && point.y >= this->yMin() && point.y < this->yMax();
 	}
 
-	public bool Contains(Vector3 point)
+	inline bool Contains(const Vector3f& point)
 	{
-		return point.x >= this.xMin && point.x < this.xMax && point.y >= this.yMin && point.y < this.yMax;
+		return point.x >= this->xMin() && point.x < this->xMax() && point.y >= this->yMin() && point.y < this->yMax();
 	}
 
-	public bool Contains(Vector3 point, bool allowInverse)
+	inline bool Contains(const Vector3f& point, bool allowInverse)
 	{
 		if (!allowInverse)
 		{
-			return this.Contains(point);
+			return this->Contains(point);
 		}
 		bool flag = false;
-		if ((this.width < 0f && point.x <= this.xMin && point.x > this.xMax) || (this.width >= 0f && point.x >= this.xMin && point.x < this.xMax))
+		if ((this->width() < 0.f && point.x <= this->xMin() && point.x > this->xMax()) || (this->width() >= 0.f && point.x >= this->xMin() && point.x < this->xMax()))
 		{
 			flag = true;
 		}
-		return flag && ((this.height < 0f && point.y <= this.yMin && point.y > this.yMax) || (this.height >= 0f && point.y >= this.yMin && point.y < this.yMax));
+		return flag && ((this->height() < 0.f && point.y <= this->yMin() && point.y > this->yMax()) || (this->height() >= 0.f && point.y >= this->yMin() && point.y < this->yMax()));
 	}
 
-	public override bool Equals(object other)
+	inline bool Overlaps(const Rectf& other)
 	{
-		if (!(other is Rect))
-		{
-			return false;
-		}
-		Rect rect = (Rect)other;
-		return this.x.Equals(rect.x) && this.y.Equals(rect.y) && this.width.Equals(rect.width) && this.height.Equals(rect.height);
+		return other.xMax() > this->xMin() && other.xMin() < this->xMax() && other.yMax() > this->yMin() && other.yMin() < this->yMax();
 	}
 
-	public override int GetHashCode()
+	inline void Set(float left, float top, float width, float height)
 	{
-		return this.x.GetHashCode() ^ this.width.GetHashCode() << 2 ^ this.y.GetHashCode() >> 2 ^ this.height.GetHashCode() >> 1;
+		this->m_XMin = left;
+		this->m_YMin = top;
+		this->m_Width = width;
+		this->m_Height = height;
 	}
 
-	public bool Overlaps(Rect other)
-	{
-		return other.xMax > this.xMin && other.xMin < this.xMax && other.yMax > this.yMin && other.yMin < this.yMax;
-	}
-
-	public bool Overlaps(Rect other, bool allowInverse)
-	{
-		Rect rect = this;
-		if (allowInverse)
-		{
-			rect = Rect.OrderMinMax(rect);
-			other = Rect.OrderMinMax(other);
-		}
-		return rect.Overlaps(other);
-	}
-
-	public void Set(float left, float top, float width, float height)
-	{
-		this.m_XMin = left;
-		this.m_YMin = top;
-		this.m_Width = width;
-		this.m_Height = height;
-	}
-
-	public override string ToString()
-	{
-		return UnityString.Format("(x:{0:F2}, y:{1:F2}, width:{2:F2}, height:{3:F2})", new object[]
-		{
-			this.x,
-				this.y,
-				this.width,
-				this.height
-		});
-	}
-
-	public string ToString(string format)
-	{
-		return UnityString.Format("(x:{0}, y:{1}, width:{2}, height:{3})", new object[]
-		{
-			this.x.ToString(format),
-				this.y.ToString(format),
-				this.width.ToString(format),
-				this.height.ToString(format)
-		});
-	}
-
-	//
-	// Operators
-	//
-	public static bool operator ==(Rect lhs, Rect rhs)
-	{
-		return lhs.x == rhs.x && lhs.y == rhs.y && lhs.width == rhs.width && lhs.height == rhs.height;
-	}
-
-	public static bool operator !=(Rect lhs, Rect rhs)
-	{
-		return lhs.x != rhs.x || lhs.y != rhs.y || lhs.width != rhs.width || lhs.height != rhs.height;
-	}*/
+private:
+	float m_XMin;
+	float m_YMin;
+	float m_Width;
+	float m_Height;
 };
+
+//
+// Operators
+//
+inline bool operator ==(const Rectf& lhs, const Rectf& rhs)
+{
+	return lhs.x() == rhs.x() && lhs.y() == rhs.y() && lhs.width() == rhs.width() && lhs.height() == rhs.height();
+}
+
+inline bool operator !=(const Rectf& lhs, const Rectf& rhs)
+{
+	return lhs.x() != rhs.x() || lhs.y() != rhs.y() || lhs.width() != rhs.width() || lhs.height() != rhs.height();
+}
 
 #endif // __RECT_H__

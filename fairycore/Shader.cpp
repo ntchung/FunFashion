@@ -92,6 +92,7 @@ void Shader::build()
 		{
 			uniform.nLocation = glGetAttribLocation(m_shaderProgram, uniform.sValueName->cstr());
 			m_isAttributeRequired[semantic.n] = true;			
+			++m_numAttributesRequired;
 		}
 		else
 		{
@@ -130,6 +131,7 @@ void Shader::setDefaults()
 	{
 		m_isAttributeRequired[i] = false;
 	}
+	m_numAttributesRequired = 0;
 }
 
 void Shader::processEffectInfo(StreamReader* reader)
@@ -488,4 +490,19 @@ void Shader::cleanShaderProgram(GLuint uiProgramObject, GLuint uiFragShader, GLu
 bool Shader::isAttributeRequired(int n) const
 {
 	return m_isAttributeRequired[n];
+}
+
+int Shader::numAttributesRequired() const
+{
+	return m_numAttributesRequired;
+}
+
+Array<SPVRTPFXUniform>& Shader::uniforms() const
+{
+	return *m_uniforms;
+}
+
+GLuint Shader::shaderProgram() const
+{
+	return m_shaderProgram;
 }

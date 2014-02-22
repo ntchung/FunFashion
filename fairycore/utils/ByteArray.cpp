@@ -369,7 +369,7 @@ List* ByteArray::split(const char* separator, int separatorCount)
 		str->trim();
 		if (str->length() > 0)
 		{
-			//res->add(str);
+			res->add(str);
 		}
 
 		prev_index = start + 1;

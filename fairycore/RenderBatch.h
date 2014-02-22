@@ -19,6 +19,7 @@ public:
 
 	void addIndices(GLushort* indices, int count);
 	void addVerticesP(GLfloat* positions, int count);
+	void addVerticesPC(GLfloat* positions, GLubyte* vertexColors, int count);
 
 private:
 	RenderBatch(Material* material);

@@ -20,6 +20,7 @@
 #include "maths/Mathf.h"
 #include "maths/Vector2f.h"
 #include "maths/Vector3f.h"
+#include "maths/Matrix4x4.h"
 #include "maths/Rectf.h"
 
 #include "utils/FairyMacros.h"
