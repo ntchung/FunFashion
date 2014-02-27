@@ -24,7 +24,6 @@ void gameInit()
 	g_currentState = StateTest::instance();
 	g_nextState = g_currentState;
 	g_currentState->begin();	
-	g_fairyHeart->addCamera(g_gui);
 }
 
 void gameDestroy()
@@ -57,9 +56,18 @@ void gameRender()
 {
 	g_currentState->render();
 	g_fairyHeart->render();
+
+	g_currentState->onGUI();
+	g_gui->present();
 }
 
 GUI* gui()
 {
 	return g_gui;
+}
+
+void gameSetScreenSize(int width, int height)
+{
+	g_fairyHeart->setViewport(0, 0, (float)width, (float)height);
+	g_gui->setViewportRect(Rectf(0, 0, (float)width, (float)height));
 }

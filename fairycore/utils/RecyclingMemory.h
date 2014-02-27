@@ -14,6 +14,8 @@ public:
 
 	void clean();
 
+	int resizeArray(void** old, int oldSize, int newSize, int elemSize);
+
 private:
 	RecyclingMemory();
 	~RecyclingMemory();

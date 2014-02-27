@@ -13,6 +13,7 @@
 
 #include <GLES2/gl2.h>
 #include <math.h>
+#include <string.h>
 
 #include "platform/DebugLog.h"
 #include "platform/FileUtils.h"
@@ -45,6 +46,10 @@
 #include "Transform.h"
 #include "Shader.h"
 #include "Material.h"
+#include "Texture.h"
+#include "TextureCache.h"
+#include "VertexList.h"
+#include "RenderState.h"
 #include "RenderBatch.h"
 #include "Camera.h"
 #include "FairyHeart.h"

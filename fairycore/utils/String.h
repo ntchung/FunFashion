@@ -48,6 +48,8 @@ public:
 	static unsigned short upperCase(unsigned short c);
 	static unsigned short lowerCase(unsigned short c);
 
+	static unsigned int makeHash(const char* str);
+
 private:
 	String();
 	String(const char* value);

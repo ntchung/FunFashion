@@ -2,49 +2,55 @@
 #define __RENDERBATCH_H__
 
 #include <GLES2/gl2.h>
-#include "Material.h"
+#include "utils/SharedObject.h"
+#include "utils/MemoryPool.h"
+
+class Material;
+class Camera;
+class VertexList;
 
 class RenderBatch : public SharedObject
 {
 public:
-	static RenderBatch* create(Material* material);
+	static RenderBatch* create(Camera* camera);
 	virtual void destroy();
 
-	int verticesLeft() const;
-	int indicesLeft() const;
-	void draw();
+	static void setup();
+	static void cleanUp();
+	
+	void addTriangle(VertexList* vertexList, int i0, int i1, int i2);
+
+	void draw();	
 	void clear();
-
-	void requestCapacity(int verticesCount, int indicesCount);
-
-	void addIndices(GLushort* indices, int count);
-	void addVerticesP(GLfloat* positions, int count);
-	void addVerticesPC(GLfloat* positions, GLubyte* vertexColors, int count);
-
+	
 private:
-	RenderBatch(Material* material);
+	RenderBatch(Camera* camera);
 	~RenderBatch();
 
-	Material* m_material;
+	Camera* m_camera;
 
-	GLfloat* m_positions;
-	GLfloat* m_uvs;	
-	GLfloat* m_normals;
-	GLfloat* m_tangents;
-	GLfloat* m_binormals;
+	struct Triangle
+	{
+		VertexList* vertexList;
+		GLushort idx[3];
+		GLfloat maxZ;
+		Triangle* next;
+	};
+	
+	Triangle* m_opaqueTriangles;
+	int m_opaqueTrianglesCount;
 
-	GLubyte* m_vertexColors;
-	GLubyte* m_boneIndices;
-	GLubyte* m_boneWeights;
-
-	int m_verticesCount;
-	int m_verticesCapacity;
+	Triangle* m_transparentTriangles;
+	int m_transparentTrianglesCount;
 
 	GLushort* m_indices;
-	int m_indicesCount;
 	int m_indicesCapacity;
 
-	static void resizeArray(void** old, int oldSize, int newSize, int elemSize, bool condition = true);
+	void draw(Triangle* head, int count);
+	static void draw(Camera* camera, VertexList* vertexList, const GLushort* indices, int count);
+
+	static MemoryPool* s_trianglesPool;
+	static void sortList(Triangle** first);
 };
 
 #endif // __RENDERBATCH_H__

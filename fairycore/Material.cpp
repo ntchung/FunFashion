@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-Material* Material::create(Shader* shader)
+Material* Material::create(int name, Shader* shader)
 {
-	return new(true) Material(shader);
+	return new(true) Material(name, shader);
 }
 
 void Material::destroy()
@@ -11,22 +11,16 @@ void Material::destroy()
 	POOL(Material)->deallocate(this);
 }
 
-Material::Material(Shader* shader)
+Material::Material(int name, Shader* shader)
+: m_name(name)
 {
 	m_shader = shader;
 	m_shader->retain();
-
-	m_guid = UIDGenerator::shared()->next();
 }
 
 Material::~Material()
 {
 	m_shader->release();
-}
-
-int Material::guid() const
-{
-	return m_guid;
 }
 
 Shader* Material::shader() const

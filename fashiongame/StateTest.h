@@ -16,6 +16,7 @@ public:
 	virtual void end();
 	virtual void update();
 	virtual void render();	
+	virtual void onGUI();
 };
 
 #endif // __STATETEST_H__

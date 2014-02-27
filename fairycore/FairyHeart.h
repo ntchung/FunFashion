@@ -4,6 +4,7 @@
 #include "Camera.h"
 
 #include "utils/List.h"
+#include "maths/Rectf.h"
 
 class FairyHeart
 {
@@ -17,8 +18,11 @@ public:
 	void update();
 	void render();
 
+	void setViewport(float x, float y, float width, float height);
+
 private:
 	List m_cameras;
+	Rectf m_viewportRect;
 };
 
 #endif // __FAIRYHEART_H__

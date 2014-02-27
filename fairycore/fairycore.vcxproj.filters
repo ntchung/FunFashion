@@ -144,6 +144,18 @@
     <ClInclude Include="maths\Matrix4x4.h">
       <Filter>maths</Filter>
     </ClInclude>
+    <ClInclude Include="RenderState.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexList.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureCache.h">
+      <Filter>engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -223,6 +235,18 @@
     </ClCompile>
     <ClCompile Include="maths\Matrix4x4.cpp">
       <Filter>maths</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderState.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexList.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCache.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

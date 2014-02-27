@@ -558,3 +558,21 @@ unsigned short String::lowerCase(unsigned short c)
 {
 	return (c < 'A' || c > 'Z') ? c : (c - 'A') + 'a';
 }
+
+unsigned int String::makeHash(const char* str)
+{
+#define FNV_PRIME		16777619U
+#define FNV_OFFSETBIAS	2166136261U
+
+	unsigned int hash = FNV_OFFSETBIAS;
+	unsigned char* p = (unsigned char*)str;
+
+	char* ptr = (char*)str;
+	while (*ptr)
+	{
+		hash = (hash * FNV_PRIME) ^ (*ptr);
+		ptr++;
+	}
+
+	return hash;
+}

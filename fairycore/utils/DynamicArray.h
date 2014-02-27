@@ -60,6 +60,11 @@ public:
 		return false;
 	}
 
+	T& get(int index)
+	{
+		return m_array[index];
+	}
+
 	inline T& operator[](int index)
 	{
 		return m_array[index];

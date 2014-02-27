@@ -16,6 +16,7 @@ public:
 	virtual void end() = 0;
 	virtual void update() = 0;
 	virtual void render() = 0;
+	virtual void onGUI() = 0;
 };
 
 #endif // __GAMESTATE_H__

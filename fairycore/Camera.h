@@ -7,6 +7,9 @@
 #include "utils/SharedObject.h"
 #include "utils/List.h"
 
+#include "maths/Matrix4x4.h"
+#include "maths/Rectf.h"
+
 class Camera : public SharedObject
 {
 public:
@@ -23,6 +26,12 @@ public:
 
 	virtual void present();
 
+	const Matrix4x4& worldViewProjection() const { return m_worldviewprojection; }
+	inline void setViewportRect(const Rectf& rect) { m_viewportRect = rect; m_isProjectionDirty = true; }
+
+	inline Vector3f& rotateVertexByView(Vector3f& vert) const { vert = m_view.rotate(vert); return vert; }
+	inline Vector3f& transformVertexByView(Vector3f& vert) const { vert = m_view * vert; return vert; }
+
 protected:
 	Camera();
 	virtual ~Camera();
@@ -32,6 +41,13 @@ protected:
 	ClearType m_clearType;
 
 	List* m_renderBatches;
+
+	Matrix4x4 m_view;
+	Matrix4x4 m_projection;
+	Matrix4x4 m_worldviewprojection;
+
+	Rectf m_viewportRect;
+	bool m_isProjectionDirty;
 };
 
 #endif // __CAMERA_H__

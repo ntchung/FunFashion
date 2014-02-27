@@ -13,14 +13,16 @@ public:
 	void retain();
 	void release();
 
+	static void setup();
 	static void autoReleaseGC();
-	static void autoReleasePurge();
+	static void autoReleasePurge();	
 
 private:
 	int m_referenceCount;
 	bool m_isAutoRelease;
 
-	static DynamicArray<SharedObject*> s_autoReleasePool;
+	static DynamicArray<SharedObject*>* s_autoReleasePool;
+	static DynamicArray<SharedObject*>* s_deletingPool;
 	static bool s_isPurgingAutoReleasePool;
 	bool commenceDestroy();
 };

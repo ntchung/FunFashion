@@ -6,18 +6,18 @@
 class Material : public SharedObject
 {
 public:
-	static Material* create(Shader* shader);
+	static Material* create(int name, Shader* shader);
 	virtual void destroy();
 
-	int guid() const;	
+	inline int name() const { return m_name; }
 	Shader* shader() const;
 
 private:
-	Material(Shader* shader);
+	Material(int name, Shader* shader);
 	~Material();
 
 	Shader* m_shader;
-	int m_guid;
+	int m_name;
 };
 
 #endif // __MATERIAL_H__

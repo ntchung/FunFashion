@@ -15,6 +15,10 @@ platform/android/FileUtilsAndroid.cpp \
 Resources.cpp \
 Shader.cpp \
 Material.cpp \
+Texture.cpp \
+TextureCache.cpp \
+VertexList.cpp \
+RenderState.cpp \
 RenderBatch.cpp \
 Camera.cpp \
 FairyCore.cpp \

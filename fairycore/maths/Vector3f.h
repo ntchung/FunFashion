@@ -310,6 +310,14 @@ public:
 		this->y = new_y;
 		this->z = new_z;
 	}
+
+	inline Vector3f& operator = (const Vector3f& value) 
+	{ 
+		x = value.x;
+		y = value.y;
+		z = value.z;
+		return *this; 
+	}
 };
 
 //

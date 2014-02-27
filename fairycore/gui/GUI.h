@@ -4,6 +4,7 @@
 #include "maths/Maths.h"
 
 #include "Camera.h"
+#include "VertexList.h"
 #include "RenderBatch.h"
 
 class GUI : public Camera
@@ -20,9 +21,11 @@ protected:
 	GUI();
 	virtual ~GUI();
 
-	RenderBatch* m_guiFillRectRenderBatch;
+	VertexList* m_fillRectVertices;
 
-	int m_fillRectCount;
+	RenderBatch* m_renderBatch;
+
+	static void build2DProjectionMatrix(Matrix4x4& mat, float viewWidth, float viewHeight);
 };
 
 #endif // __GUI_H__

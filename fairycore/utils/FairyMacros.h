@@ -32,10 +32,13 @@
 #define INT_MAX       2147483647    /* maximum (signed) int value */
 #endif
 
-#define STREAM__BUFFER_SIZE		512
+#define STREAM__BUFFER_SIZE				512
 
-#define GL_DEPTH_SORT_NONE				0x8D00
-#define GL_DEPTH_SORT_FRONT_TO_BACK		0x8D01
-#define GL_DEPTH_SORT_BACK_TO_FRONT		0x8D02
+#define VERTEX_LIST_GROW_RATE			32
+
+#define TRIANGLES_POOL_SIZE				4096
+
+#define GL_RENDER_TYPE_OPAQUE			0x8D00
+#define GL_RENDER_TYPE_TRANSPARENT		0x8D01
 
 #endif // __FAIRYMACROS_H__

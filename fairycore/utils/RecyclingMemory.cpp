@@ -188,3 +188,21 @@ void RecyclingMemory::clean()
 	}
 	m_usedChunk = NULL;
 }
+
+int RecyclingMemory::resizeArray(void** old, int oldSize, int newSize, int elemSize)
+{
+	if (newSize <= oldSize)
+	{
+		return oldSize;
+	}
+
+	void* newArray = allocate(newSize * elemSize);
+	if (oldSize > 0)
+	{
+		memcpy(newArray, *old, oldSize * elemSize);
+	}
+	recycle(*old);
+	*old = newArray;
+
+	return newSize;
+}

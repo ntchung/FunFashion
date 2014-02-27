@@ -18,6 +18,8 @@ struct SPVRTPFXUniform
 
 class Shader : public SharedObject
 {
+	friend class RenderState;
+
 public:
 	static Shader* create(char* data, int length);
 	virtual void destroy();
@@ -28,6 +30,12 @@ public:
 	GLuint shaderProgram() const;
 
 	Array<SPVRTPFXUniform>& uniforms() const;
+
+	GLenum getRenderType() const;
+	int getRenderQueue() const;
+
+	void begin();
+	void end();
 
 private:
 	Shader(char* data, int length);
@@ -46,16 +54,14 @@ private:
 	int m_renderQueue;	
 	bool m_isZWriting;
 
-	GLenum m_depthSortMode;
+	GLenum m_renderType;
 
-	bool m_isFaceCulling;
 	GLenum m_faceCullingMode;
 
 	bool m_isAlphaBlending;
 	GLenum m_blendingSource;
 	GLenum m_blendingDest;
 
-	bool m_isDepthTesting;
 	GLenum m_depthFunc;
 
 	GLuint m_shaderProgram;
@@ -69,8 +75,8 @@ private:
 
 	static GLenum alphaFactorFromString(ByteArray* str);
 	static GLenum cullModeFromString(ByteArray* str);
+	static GLenum renderTypeFromString(ByteArray* str);
 	static GLenum depthFuncFromString(ByteArray* str);
-	static GLenum depthSortModeFromString(ByteArray* str);
 
 	static GLuint compileVertexShader(const char* source);
 	static GLuint compileFragmentShader(const char* source);

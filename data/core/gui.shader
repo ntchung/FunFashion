@@ -8,7 +8,7 @@
 	UNIFORM sTexture				TEXTURE0
 	
 	RENDERQUEUE					10000
-	DEPTHSORT						On
+	RENDERTYPE						Transparent
 	BLENDING							SrcAlpha OneMinusSrcAlpha
 	ZTEST									Always
 	ZWRITE								Off

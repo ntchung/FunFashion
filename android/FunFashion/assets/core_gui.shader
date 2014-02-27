@@ -6,12 +6,9 @@
 
 	UNIFORM MVPMatrix			WORLDVIEWPROJECTION
 	UNIFORM sTexture				TEXTURE0
-
-	FRAGMENTSHADER 			FragmentShader
-	VERTEXSHADER 					VertexShader
 	
 	RENDERQUEUE					10000
-	DEPTHSORT						On
+	RENDERTYPE						Transparent
 	BLENDING							SrcAlpha OneMinusSrcAlpha
 	ZTEST									Always
 	ZWRITE								Off
@@ -19,9 +16,6 @@
 [/EFFECT]
 
 [VERTEXSHADER]
-	NAME VertexShader
-	
-	[GLSL_CODE]
 	attribute highp vec4 inVertex;
 	attribute lowp vec2 inUV;
 
@@ -34,13 +28,9 @@
 		gl_Position = MVPMatrix * inVertex;
 		vTexCoord 	= inUV;
 	}
-	[/GLSL_CODE]
 [/VERTEXSHADER]
 
 [FRAGMENTSHADER]
-	NAME FragmentShader
-
-	[GLSL_CODE]
 	uniform sampler2D sTexture;
 	varying lowp vec2 vTexCoord;
 	
@@ -48,5 +38,4 @@
 	{
 		gl_FragColor = texture2D(sTexture, vTexCoord);
 	}
-	[/GLSL_CODE]
 [/FRAGMENTSHADER]

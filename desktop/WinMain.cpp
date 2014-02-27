@@ -289,6 +289,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, TCHAR *lpCmdLin
 
 	// Game loop
 	gameInit();
+	gameSetScreenSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	while (!g_bDemoDone )
 	{		
 		gameUpdate();

@@ -128,7 +128,7 @@ JNI_RENDERER_NAME(updateRendering)(
 	
 	LOG("Screen (%d,%d)", screenWidth, screenHeight );
 	
-	// TODO
+	gameSetScreenSize(screenWidth, screenHeight);
 }
 
 #ifdef __cplusplus

@@ -105,6 +105,14 @@ public:
 	//
 	// Constructors
 	//
+	Rectf()
+		: m_XMin(0)
+		, m_YMin(0)
+		, m_Width(0)
+		, m_Height(0)
+	{
+	}
+
 	Rectf(const Rectf& source)
 	{
 		this->m_XMin = source.m_XMin;

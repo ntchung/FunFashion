@@ -247,6 +247,11 @@ public:
 		return log10f(f);
 	}
 
+	inline static float Max(float a, float b, float c)
+	{
+		return (a <= b) ? ( (b <= c) ? c : b ) : ( (a <= c) ? c : a );
+	}
+
 	inline static float Max(Array<float>& values)
 	{
 		int num = values.count();
@@ -269,7 +274,7 @@ public:
 	{
 		return (a <= b) ? b : a;
 	}
-
+	
 	inline static int Max(Array<int>& values)
 	{
 		int num = values.count();
@@ -337,6 +342,11 @@ public:
 	inline static float Min(float a, float b)
 	{
 		return (a >= b) ? b : a;
+	}
+
+	inline static float Min(float a, float b, float c)
+	{
+		return (a >= b) ? ((b >= c) ? c : b) : ((a >= c) ? c : a);
 	}
 
 	inline static float MoveTowards(float current, float target, float maxDelta)

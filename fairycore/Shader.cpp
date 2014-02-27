@@ -114,17 +114,15 @@ void Shader::setDefaults()
 {
 	m_name = ByteArray::create();
 	m_renderQueue = 10000;
-	m_depthSortMode = GL_DEPTH_SORT_NONE;
+	m_renderType = GL_RENDER_TYPE_OPAQUE;
 	m_isZWriting = true;
 
-	m_isFaceCulling = true;
-	m_faceCullingMode = GL_CW;
+	m_faceCullingMode = GL_FRONT_AND_BACK;
 
 	m_isAlphaBlending = false;
 	m_blendingSource = GL_SRC_ALPHA;
 	m_blendingDest = GL_ONE_MINUS_SRC_ALPHA;
 
-	m_isDepthTesting = false;
 	m_depthFunc = GL_ALWAYS;
 
 	for (int i = 0; i < SEMANTIC_ATTRIBUTES_NUM; ++i)
@@ -179,29 +177,20 @@ void Shader::processEffectInfo(StreamReader* reader)
 					// Face Culling
 					else if (param0->equals("FACECULL"))
 					{
-						if (param1->equalsIgnoreCase("Off"))
-						{
-							m_isFaceCulling = false;
-						}
-						else
-						{
-							m_isFaceCulling = true;
-							m_faceCullingMode = cullModeFromString(param1);
-						}
+						m_faceCullingMode = cullModeFromString(param1);						
 					}
-					else if (param0->equals("DEPTHSORT"))
+					else if (param0->equals("RENDERTYPE"))
 					{
-						m_depthSortMode = param1->equalsIgnoreCase("On");
+						m_renderType = renderTypeFromString(param1);
 					}
 					else if (param0->equals("ZTEST"))
 					{
 						if (param1->equalsIgnoreCase("Off"))
 						{
-							m_isDepthTesting = false;
+							m_depthFunc = GL_ALWAYS;
 						}
 						else
 						{
-							m_isDepthTesting = true;
 							m_depthFunc = depthFuncFromString(param1);
 						}
 					}
@@ -293,12 +282,26 @@ GLenum Shader::alphaFactorFromString(ByteArray* str)
 
 GLenum Shader::cullModeFromString(ByteArray* str)
 {
-	if (str->equalsIgnoreCase("Ccw"))
+	if (str->equalsIgnoreCase("Front"))
 	{
-		return GL_CCW;
+		return GL_FRONT;
+	}
+	else if (str->equalsIgnoreCase("Back"))
+	{
+		return GL_BACK;
 	}
 	
-	return GL_CW;
+	return GL_FRONT_AND_BACK;
+}
+
+GLenum Shader::renderTypeFromString(ByteArray* str)
+{
+	if (str->equalsIgnoreCase("Transparent"))
+	{
+		return GL_RENDER_TYPE_TRANSPARENT;
+	}
+	
+	return GL_RENDER_TYPE_OPAQUE;
 }
 
 GLenum Shader::depthFuncFromString(ByteArray* str)
@@ -333,20 +336,6 @@ GLenum Shader::depthFuncFromString(ByteArray* str)
 	}
 
 	return GL_ALWAYS;
-}
-
-GLenum Shader::depthSortModeFromString(ByteArray* str)
-{
-	if (str->equalsIgnoreCase("FrontToBack"))
-	{
-		return GL_DEPTH_SORT_FRONT_TO_BACK;
-	}
-	else if (str->equalsIgnoreCase("BackToFront"))
-	{
-		return GL_DEPTH_SORT_BACK_TO_FRONT;
-	}
-
-	return GL_DEPTH_SORT_NONE;
 }
 
 void Shader::processShader(StreamReader* reader, const char* endtag, ByteArray* soureCode)
@@ -505,4 +494,41 @@ Array<SPVRTPFXUniform>& Shader::uniforms() const
 GLuint Shader::shaderProgram() const
 {
 	return m_shaderProgram;
+}
+
+GLenum Shader::getRenderType() const
+{
+	return m_renderType;
+}
+
+int Shader::getRenderQueue() const
+{
+	return m_renderQueue;
+}
+
+void Shader::begin()
+{
+	RenderState::shared()->set(this);
+	glUseProgram(m_shaderProgram);
+}
+
+void Shader::end()
+{
+	for (int i = 0; i < m_uniforms->count(); ++i)
+	{
+		SPVRTPFXUniform& uniform = m_uniforms->get(i);
+		switch (uniform.nSemantic)
+		{
+		case ePVRTPFX_UsPOSITION:
+		case ePVRTPFX_UsNORMAL:
+		case ePVRTPFX_UsTANGENT:
+		case ePVRTPFX_UsBINORMAL:
+		case ePVRTPFX_UsUV:
+		case ePVRTPFX_UsVERTEXCOLOR:
+		case ePVRTPFX_UsBONEINDEX:
+		case ePVRTPFX_UsBONEWEIGHT:
+			glDisableVertexAttribArray(uniform.nLocation);
+			break;
+		}
+	}
 }
