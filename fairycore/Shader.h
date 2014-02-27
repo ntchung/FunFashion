@@ -33,9 +33,6 @@ public:
 
 	int getRenderQueue() const;
 
-	void begin();
-	void end();
-
 private:
 	Shader(char* data, int length);
 	~Shader();

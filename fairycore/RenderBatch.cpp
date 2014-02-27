@@ -167,7 +167,7 @@ void RenderBatch::draw(Camera* camera, VertexList* vertexList, const GLushort* i
 	const Array<SPVRTPFXUniform>& uniforms = shader->uniforms();
 
 	// GL states
-	shader->begin();	
+	vertexList->m_material->begin();
 	
 	// Attributes and Uniforms
 	for (i = 0; i < uniforms.count(); ++i)
@@ -194,7 +194,7 @@ void RenderBatch::draw(Camera* camera, VertexList* vertexList, const GLushort* i
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, indices);
 
 	// Clean up
-	shader->end();
+	vertexList->m_material->endShader();
 }
 
 void RenderBatch::clear()

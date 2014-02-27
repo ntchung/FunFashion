@@ -14,6 +14,7 @@ public:
 	void init();
 
 	void set(Shader* shader);
+	void set(Material* material);
 
 private:
 	RenderState();
@@ -27,6 +28,8 @@ private:
 	GLenum m_blendingDest;
 
 	GLenum m_depthFunc;
+
+	Material* m_currentMaterial;
 };
 
 #endif // __RENDERSTATE_H__

@@ -1,3 +1,5 @@
+SETLOCAL EnableDelayedExpansion
+
 call config.bat
 
 cd textures

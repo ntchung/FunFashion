@@ -20,6 +20,7 @@ void RenderState::destroy()
 }
 
 RenderState::RenderState()
+: m_currentMaterial(NULL)
 {
 
 }
@@ -108,5 +109,38 @@ void RenderState::set(Shader* shader)
 		m_blendingSource = shader->m_blendingSource;
 		m_blendingDest = shader->m_blendingDest;
 		glBlendFunc(m_blendingSource, m_blendingDest);
+	}
+}
+
+void RenderState::set(Material* mat)
+{
+	if (m_currentMaterial != mat)
+	{
+		if (m_currentMaterial != NULL)
+		{
+			m_currentMaterial->endTexturing();
+		}
+
+		m_currentMaterial = mat;
+		if (m_currentMaterial != NULL)
+		{
+			for (int i = 0; i < MAX_TEXTURE_UNITS; ++i)
+			{
+				glActiveTexture(GL_TEXTURE0 + i);
+
+				if (!mat->m_textures[i])
+				{
+					glDisable(GL_TEXTURE_2D);
+				}
+				else
+				{
+					glEnable(GL_TEXTURE_2D);
+					glBindTexture(GL_TEXTURE_2D, mat->m_textures[i]->glName());
+				}
+			}
+
+			this->set(mat->m_shader);
+			glUseProgram(mat->m_shader->shaderProgram());
+		}
 	}
 }

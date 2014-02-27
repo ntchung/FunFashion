@@ -540,30 +540,3 @@ int Shader::getRenderQueue() const
 {
 	return m_renderQueue;
 }
-
-void Shader::begin()
-{
-	RenderState::shared()->set(this);
-	glUseProgram(m_shaderProgram);
-}
-
-void Shader::end()
-{
-	for (int i = 0; i < m_uniforms->count(); ++i)
-	{
-		SPVRTPFXUniform& uniform = m_uniforms->get(i);
-		switch (uniform.nSemantic)
-		{
-		case ePVRTPFX_UsPOSITION:
-		case ePVRTPFX_UsNORMAL:
-		case ePVRTPFX_UsTANGENT:
-		case ePVRTPFX_UsBINORMAL:
-		case ePVRTPFX_UsUV:
-		case ePVRTPFX_UsVERTEXCOLOR:
-		case ePVRTPFX_UsBONEINDEX:
-		case ePVRTPFX_UsBONEWEIGHT:
-			glDisableVertexAttribArray(uniform.nLocation);
-			break;
-		}
-	}
-}
