@@ -28,11 +28,11 @@ RenderBatch::RenderBatch(Camera* camera)
 	m_camera = camera;
 	m_camera->retain();
 
-	m_opaqueTriangles = NULL;
-	m_opaqueTrianglesCount = 0;
-
-	m_transparentTriangles = NULL;
-	m_transparentTrianglesCount = 0;
+	for (int i = 0; i < TRIANGLES_SORT_TYPES_COUNT; ++i)
+	{
+		m_triangles[i] = NULL;
+		m_trianglesCount[i] = 0;
+	}
 
 	m_indices = NULL;
 	m_indicesCapacity = 0;
@@ -46,8 +46,7 @@ RenderBatch::~RenderBatch()
 
 void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 {
-	bool isTransparent = vertexList->m_material->shader()->getRenderType() == GL_RENDER_TYPE_TRANSPARENT;	
-
+	Triangle* temp;
 	Triangle* p = (Triangle*)s_trianglesPool->allocate();
 
 	p->vertexList = vertexList;
@@ -56,59 +55,72 @@ void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 	p->idx[2] = i2;
 
 	// Transparent
-	if (isTransparent)
+	const int sortingType = vertexList->getMaterial()->sortingType();
+	Triangle*& trianglesList = m_triangles[sortingType];
+	switch (sortingType)
 	{
-		const GLfloat z0 = m_camera->rotateVertexByView(vertexList->getPos(i0)).z;
-		const GLfloat z1 = m_camera->rotateVertexByView(vertexList->getPos(i1)).z;
-		const GLfloat z2 = m_camera->rotateVertexByView(vertexList->getPos(i2)).z;
-		p->maxZ = Mathf::Max(z0, z1, z2);
+	case TRIANGLES_SORT_NONE:
+		temp = trianglesList;
+		trianglesList = p;
+		trianglesList->next = temp;
+		break;
+
+	case TRIANGLES_SORT_BACK_TO_FRONT:
+		{
+			const GLfloat z0 = m_camera->rotateVertexByView(vertexList->getPos(i0)).z;
+			const GLfloat z1 = m_camera->rotateVertexByView(vertexList->getPos(i1)).z;
+			const GLfloat z2 = m_camera->rotateVertexByView(vertexList->getPos(i2)).z;
+			p->maxZ = Mathf::Max(z0, z1, z2);
 	
-		Triangle* temp = m_transparentTriangles;
-		m_transparentTriangles = p;
-		m_transparentTriangles->next = temp;
+			Triangle* temp = trianglesList;
+			trianglesList = p;
+			trianglesList->next = temp;			
+		}
+		break;
 
-		++m_transparentTrianglesCount;
-	}
-	// Opaque
-	else
-	{
-		// Find same material chunk to add
-		Triangle* temp;
-		Triangle*& t = m_opaqueTriangles;
-		while (t)
+	case TRIANGLES_SORT_MATERIAL:
 		{
-			if (t->vertexList == vertexList)
+			// Find same material chunk to add		
+			Triangle*& t = trianglesList;
+			while (t)
 			{
-				temp = t;
-				t = p;
-				t->next = temp;
-				break;
+				if (t->vertexList == vertexList)
+				{
+					temp = t;
+					t = p;
+					t->next = temp;
+					break;
+				}
+				t = t->next;
 			}
-			t = t->next;
-		}
 
-		// Not found? Just add to head
-		if (!t)
-		{
-			temp = m_opaqueTriangles;
-			m_opaqueTriangles = p;
-			m_opaqueTriangles->next = temp;
+			// Not found? Just add to head
+			if (!t)
+			{
+				temp = trianglesList;
+				trianglesList = p;
+				trianglesList->next = temp;
+			}
 		}
-
-		++m_opaqueTrianglesCount;
+		break;
 	}
+
+	++m_trianglesCount[sortingType];
 }
 
 void RenderBatch::draw()
 {	
-	// Opaque pass
-	draw(m_opaqueTriangles, m_opaqueTrianglesCount);
-
 	// Sort transparent triangles
-	sortList(&m_transparentTriangles);
+	sortList(&m_triangles[TRIANGLES_SORT_BACK_TO_FRONT]);
 
 	// Transparent pass
-	draw(m_transparentTriangles, m_transparentTrianglesCount);
+	draw(m_triangles[TRIANGLES_SORT_BACK_TO_FRONT], m_trianglesCount[TRIANGLES_SORT_BACK_TO_FRONT]);
+
+	// Material sorting pass
+	draw(m_triangles[TRIANGLES_SORT_MATERIAL], m_trianglesCount[TRIANGLES_SORT_MATERIAL]);
+
+	// No sorting pass
+	draw(m_triangles[TRIANGLES_SORT_NONE], m_trianglesCount[TRIANGLES_SORT_NONE]);	
 }
 
 void RenderBatch::draw(Triangle* head, int count)
@@ -187,31 +199,28 @@ void RenderBatch::draw(Camera* camera, VertexList* vertexList, const GLushort* i
 
 void RenderBatch::clear()
 {
-	Triangle* p = m_opaqueTriangles;
-	while (p)
+	for (int i = 0; i < TRIANGLES_SORT_TYPES_COUNT; ++i)
 	{
-		Triangle* n = p;		
-		p = p->next;
+		Triangle* p = m_triangles[i];
+		while (p)
+		{
+			Triangle* n = p;
+			p = p->next;
 
-		s_trianglesPool->deallocate(n);
+			s_trianglesPool->deallocate(n);
+		}
+		m_triangles[i] = NULL;
+		m_trianglesCount[i] = 0;
 	}
-	m_opaqueTriangles = NULL;
-	m_opaqueTrianglesCount = 0;
-
-	p = m_transparentTriangles;
-	while (p)
-	{
-		Triangle* n = p;
-		p = p->next;
-
-		s_trianglesPool->deallocate(n);
-	}
-	m_transparentTriangles = NULL;
-	m_transparentTrianglesCount = 0;
 }
 
 void RenderBatch::sortList(Triangle** first)
 {
+	if (!*first)
+	{
+		return;
+	}
+
 	Triangle *p, *q, *e, *tail;
 	int insize, nmerges, psize, qsize, i;
 

@@ -12,12 +12,16 @@ public:
 	inline int name() const { return m_name; }
 	Shader* shader() const;
 
+	inline int sortingType() const { return m_sortingType; }
+
 private:
 	Material(int name, Shader* shader);
 	~Material();
 
 	Shader* m_shader;
 	int m_name;
+
+	int m_sortingType;
 };
 
 #endif // __MATERIAL_H__

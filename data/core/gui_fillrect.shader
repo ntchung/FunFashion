@@ -7,8 +7,7 @@
 	UNIFORM MVPMatrix			WORLDVIEWPROJECTION
 	UNIFORM sTexture				TEXTURE0
 	
-	RENDERQUEUE					10000
-	RENDERTYPE						Transparent
+	RENDERQUEUE					Geometry+100
 	BLENDING							SrcAlpha OneMinusSrcAlpha
 	ZTEST									Always
 	ZWRITE								Off

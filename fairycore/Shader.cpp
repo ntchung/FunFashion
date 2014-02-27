@@ -113,8 +113,7 @@ void Shader::build()
 void Shader::setDefaults()
 {
 	m_name = ByteArray::create();
-	m_renderQueue = 10000;
-	m_renderType = GL_RENDER_TYPE_OPAQUE;
+	m_renderQueue = RENDER_QUEUE_GEOMETRY;
 	m_isZWriting = true;
 
 	m_faceCullingMode = GL_FRONT_AND_BACK;
@@ -167,7 +166,7 @@ void Shader::processEffectInfo(StreamReader* reader)
 					// Depth sorting
 					else if (param0->equals("RENDERQUEUE"))
 					{
-						m_renderQueue = param1->toInt();
+						m_renderQueue = parseRenderQueueFromString(param1);
 					}
 					// Z-Writing
 					else if (param0->equals("ZWRITE"))
@@ -178,10 +177,6 @@ void Shader::processEffectInfo(StreamReader* reader)
 					else if (param0->equals("FACECULL"))
 					{
 						m_faceCullingMode = cullModeFromString(param1);						
-					}
-					else if (param0->equals("RENDERTYPE"))
-					{
-						m_renderType = renderTypeFromString(param1);
 					}
 					else if (param0->equals("ZTEST"))
 					{
@@ -296,12 +291,57 @@ GLenum Shader::cullModeFromString(ByteArray* str)
 
 GLenum Shader::renderTypeFromString(ByteArray* str)
 {
-	if (str->equalsIgnoreCase("Transparent"))
+	return 0;
+
+	/*if (str->equalsIgnoreCase("Transparent"))
 	{
 		return GL_RENDER_TYPE_TRANSPARENT;
 	}
 	
-	return GL_RENDER_TYPE_OPAQUE;
+	return GL_RENDER_TYPE_OPAQUE;*/	
+}
+
+int Shader::parseRenderQueueFromString(ByteArray* str)
+{
+	int baseQueue = 0;
+	if (str->startsWithIgnoreCase("Geometry"))
+	{
+		baseQueue = RENDER_QUEUE_GEOMETRY;
+	}
+	else if (str->startsWithIgnoreCase("Transparent"))
+	{
+		baseQueue = RENDER_QUEUE_TRANSPARENT;
+	}
+	if (str->startsWithIgnoreCase("Overlay"))
+	{
+		baseQueue = RENDER_QUEUE_OVERLAY;
+	}
+
+	int idx;
+	
+	idx = str->indexOf('+');
+	if (idx < 0)
+	{
+		idx = str->indexOf('-');
+
+		// Minus
+		if (idx >= 0)
+		{
+			ByteArray* temp = ByteArray::create(str->cstr());
+			temp->subString(idx + 1);
+			return baseQueue - temp->toInt();
+		}		
+	}
+	// Plus
+	else
+	{
+		ByteArray* temp = ByteArray::create(str->cstr());
+		temp->subString(idx + 1);
+		return baseQueue + temp->toInt();
+	}
+
+	// Nothing
+	return baseQueue;
 }
 
 GLenum Shader::depthFuncFromString(ByteArray* str)
@@ -494,11 +534,6 @@ Array<SPVRTPFXUniform>& Shader::uniforms() const
 GLuint Shader::shaderProgram() const
 {
 	return m_shaderProgram;
-}
-
-GLenum Shader::getRenderType() const
-{
-	return m_renderType;
 }
 
 int Shader::getRenderQueue() const

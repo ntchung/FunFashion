@@ -29,8 +29,11 @@ public:
 	bool startsWith(char c);
 	bool endsWith(char c);
 	bool startsWith(const char* value);
+	bool startsWithIgnoreCase(const char* value);
 	bool equals(const char* value);
 	bool equalsIgnoreCase(const char* value);
+
+	int indexOf(char c);
 
 	List* split(const char* separator, int separatorCount);
 

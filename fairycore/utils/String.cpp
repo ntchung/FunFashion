@@ -489,7 +489,7 @@ int String::toInt() const
 				}
 				else 
 				{
-					return 0xFFFFFFFF;
+					return 0;
 				}
 			}
 		}
@@ -530,7 +530,7 @@ float String::toFloat() const
 				}
 				else 
 				{
-					return (float)0xFFFFFFFF;
+					return 0;
 				}
 			}
 		}

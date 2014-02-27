@@ -31,7 +31,6 @@ public:
 
 	Array<SPVRTPFXUniform>& uniforms() const;
 
-	GLenum getRenderType() const;
 	int getRenderQueue() const;
 
 	void begin();
@@ -54,8 +53,6 @@ private:
 	int m_renderQueue;	
 	bool m_isZWriting;
 
-	GLenum m_renderType;
-
 	GLenum m_faceCullingMode;
 
 	bool m_isAlphaBlending;
@@ -77,11 +74,12 @@ private:
 	static GLenum cullModeFromString(ByteArray* str);
 	static GLenum renderTypeFromString(ByteArray* str);
 	static GLenum depthFuncFromString(ByteArray* str);
+	static int parseRenderQueueFromString(ByteArray* str);
 
 	static GLuint compileVertexShader(const char* source);
 	static GLuint compileFragmentShader(const char* source);
 	static GLuint linkShaderProgram(GLuint vshader, GLuint fshader);
-	static void cleanShaderProgram(GLuint uiProgramObject, GLuint uiFragShader, GLuint uiVertShader);
+	static void cleanShaderProgram(GLuint uiProgramObject, GLuint uiFragShader, GLuint uiVertShader);	
 };
 
 #endif // __SHADER_H__

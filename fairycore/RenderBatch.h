@@ -37,11 +37,8 @@ private:
 		Triangle* next;
 	};
 	
-	Triangle* m_opaqueTriangles;
-	int m_opaqueTrianglesCount;
-
-	Triangle* m_transparentTriangles;
-	int m_transparentTrianglesCount;
+	Triangle* m_triangles[TRIANGLES_SORT_TYPES_COUNT];
+	int m_trianglesCount[TRIANGLES_SORT_TYPES_COUNT];
 
 	GLushort* m_indices;
 	int m_indicesCapacity;

@@ -223,6 +223,19 @@ void ByteArray::subString(int start, int length)
 	m_stringLength = length;
 }
 
+int ByteArray::indexOf(char c)
+{
+	for (int i = 0; i < m_stringLength; ++i)
+	{
+		if (m_data[i] == c)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
 bool ByteArray::startsWith(char c)
 {
 	return m_data[0] == c;
@@ -262,6 +275,25 @@ bool ByteArray::startsWith(const char* value)
 	for (int i = 0; i < len; ++i)
 	{
 		if (m_data[i] != value[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool ByteArray::startsWithIgnoreCase(const char* value)
+{
+	int len = (int)strlen(value);
+	if (m_stringLength < len)
+	{
+		return false;
+	}
+
+	for (int i = 0; i < len; ++i)
+	{
+		if (tolower(m_data[i]) != tolower(value[i]))
 		{
 			return false;
 		}
@@ -415,7 +447,7 @@ int ByteArray::toInt() const
 				}
 				else 
 				{
-					return 0xFFFFFFFF;
+					return 0;
 				}
 			}
 		}
@@ -456,7 +488,7 @@ float ByteArray::toFloat() const
 				}
 				else 
 				{
-					return (float)0xFFFFFFFF;
+					return 0;
 				}
 			}
 		}
