@@ -392,9 +392,26 @@ void Shader::processShader(StreamReader* reader, const char* endtag, ByteArray* 
 			{
 				return;
 			}
-			else
+			else if (line->equals("[GLSL]"))
 			{
-				soureCode->append(line->cstr());
+				while (!reader->endOfStream())
+				{
+					ByteArray* line = reader->readLineToBytes();
+
+					if (line)
+					{
+						line->trim();
+
+						if (line->equals("[/GLSL]"))
+						{
+							break;
+						}
+						else
+						{
+							soureCode->append(line->cstr());
+						}
+					}
+				}				
 			}
 		}
 

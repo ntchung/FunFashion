@@ -10,6 +10,8 @@
 #include "maths/Matrix4x4.h"
 #include "maths/Rectf.h"
 
+class RenderBatch;
+
 class Camera : public SharedObject
 {
 public:
@@ -41,6 +43,8 @@ public:
 	inline ProjectType projectType() const { return m_projectType;  }
 	inline void setProjectType(ProjectType value) { m_projectType = value; m_isProjectionDirty = true; }
 
+	RenderBatch* renderBatch(int queue);
+
 protected:
 	Camera();
 	virtual ~Camera();
@@ -62,7 +66,7 @@ protected:
 	float m_zNear;
 	float m_zFar;
 
-	static void buildOrthographicProjectionMatrix(Matrix4x4& mat, float size, float zNear, float zFar);
+	void buildOrthographicProjectionMatrix(Matrix4x4& mat, const Rectf& viewport, float size, float zNear, float zFar);
 };
 
 #endif // __CAMERA_H__

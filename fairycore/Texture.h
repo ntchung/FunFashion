@@ -10,8 +10,10 @@ public:
 	static Texture* create(char* data, int length);
 	virtual void destroy();
 
-	unsigned int name() const { return m_hashName;  }
-	GLuint glName() const { return m_glName; }
+	void setName(const char* name);
+	inline void setHashName(unsigned int value) { m_hashName = value; }
+	inline unsigned int name() const { return m_hashName; }
+	inline GLuint glName() const { return m_glName; }
 
 private:
 	Texture();

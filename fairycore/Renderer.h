@@ -3,15 +3,25 @@
 
 #include "utils/SharedObject.h"
 
+class Material;
+class VertexList;
+class Camera;
+
 class Renderer : public SharedObject
 {
 public:
-	static Renderer* create();
-	virtual void destroy();
+	void setMaterial(Material* value);
+	inline Material* material() const { return m_material; }
 
-private:
+	virtual void draw(Camera* camera) = 0;
+	void reset();
+
+protected:
 	Renderer();
-	~Renderer();
+	virtual ~Renderer();
+
+	Material* m_material;
+	VertexList* m_vertexList;
 };
 
 #endif // __RENDERER_H__

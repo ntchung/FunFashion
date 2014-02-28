@@ -2,9 +2,9 @@
 
 MemoryPool* RenderBatch::s_trianglesPool = 0;
 
-RenderBatch* RenderBatch::create(Camera* camera)
+RenderBatch* RenderBatch::create(Camera* camera, int queue)
 {
-	return new(true) RenderBatch(camera);
+	return new(true) RenderBatch(camera, queue);
 }
 
 void RenderBatch::destroy()
@@ -23,7 +23,8 @@ void RenderBatch::cleanUp()
 	delete s_trianglesPool;
 }
 
-RenderBatch::RenderBatch(Camera* camera)
+RenderBatch::RenderBatch(Camera* camera, int queue)
+: m_queue(queue)
 {
 	m_camera = camera;
 	m_camera->retain();

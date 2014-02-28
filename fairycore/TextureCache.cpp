@@ -45,6 +45,7 @@ Texture* TextureCache::get(const char* name)
 
 	tex = Resources::shared()->load<Texture>(name);
 	tex->autorelease();
+	tex->setHashName(hashName);
 
 	m_textures->add(tex);
 }

@@ -81,6 +81,11 @@ Matrix4x4 Matrix4x4::operator * (const Matrix4x4& mat) const
 		return mat;
 	}
 
+	if (mat.isIdentity)
+	{
+		return *this;
+	}
+
 	const float* m1 = this->m;
 	const float* m2 = mat.m;
 

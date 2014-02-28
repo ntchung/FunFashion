@@ -12,7 +12,7 @@ class VertexList;
 class RenderBatch : public SharedObject
 {
 public:
-	static RenderBatch* create(Camera* camera);
+	static RenderBatch* create(Camera* camera, int queue = 0);
 	virtual void destroy();
 
 	static void setup();
@@ -22,12 +22,15 @@ public:
 
 	void draw();	
 	void clear();
+
+	inline int getRenderQueue() const { return m_queue; }
 	
 private:
-	RenderBatch(Camera* camera);
+	RenderBatch(Camera* camera, int queue);
 	~RenderBatch();
 
 	Camera* m_camera;
+	int m_queue;
 
 	struct Triangle
 	{

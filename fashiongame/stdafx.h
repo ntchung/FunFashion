@@ -10,5 +10,6 @@
 
 #include "FashionGame.h"
 #include "StateTest.h"
+#include "TestRenderer.h"
 
 #endif // __STDAFX_H__

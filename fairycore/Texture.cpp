@@ -47,6 +47,11 @@ Texture::~Texture()
 	}
 }
 
+void Texture::setName(const char* name)
+{
+	m_hashName = String::makeHash(name);
+}
+
 Texture::Texture(char* data, int length)
 {
 	if (m_glName)
@@ -55,7 +60,6 @@ Texture::Texture(char* data, int length)
 		m_glName = 0;
 	}
 
-	m_hashName = String::makeHash(fileName);
 	glGenTextures(1, &m_glName);
 
 	MemoryStream* stream = MemoryStream::create(data, length);
@@ -64,7 +68,7 @@ Texture::Texture(char* data, int length)
 	int _width, _height;
 
 	PVRHeader header;
-	stream->read(&header, 0, sizeof(PVRHeader));
+	stream->read((char*)&header, 0, sizeof(PVRHeader));
 	
 	stream->close();
 }

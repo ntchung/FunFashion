@@ -31,26 +31,54 @@ Camera::~Camera()
 
 void Camera::present()
 {
+	// Prepare matrices
 	if (m_isProjectionDirty)
 	{
 		if (m_projectType == Orthographic)
 		{
-			buildOrthographicProjectionMatrix(m_projection, m_orthoSize, m_zNear, m_zFar);
+			buildOrthographicProjectionMatrix(m_projection, m_viewportRect, m_orthoSize, m_zNear, m_zFar);
 		}
 		m_isProjectionDirty = false;
-	}
+	}	
+	m_worldviewprojection = m_projection * m_view;
 
+	// Clear
 	if (m_clearType != NONE)
 	{
 		glClearColor(m_backgroundColor.red, m_backgroundColor.green, m_backgroundColor.blue, m_backgroundColor.alpha);
-		glClear(m_clearType);
+		glClear(m_clearType);		
+	}
+	
+	for (int i = 0; i < m_renderBatches->count(); ++i)
+	{
+		RenderBatch* batch = (RenderBatch*)m_renderBatches->get(i);
+		batch->draw();
+		batch->clear();
 	}
 }
 
-void Camera::buildOrthographicProjectionMatrix(Matrix4x4& mat, float size, float zNear, float zFar)
+RenderBatch* Camera::renderBatch(int queue)
 {
-	const float left = -size;
-	const float right = size;
+	for (int i = 0; i < m_renderBatches->count(); ++i)
+	{
+		RenderBatch* batch = (RenderBatch*)m_renderBatches->get(i);
+		if (batch->getRenderQueue() == queue)
+		{
+			return batch;
+		}
+	}
+
+	RenderBatch* batch = RenderBatch::create(this, queue);
+	batch->autorelease();
+	m_renderBatches->add(batch);
+	return batch;
+}
+
+void Camera::buildOrthographicProjectionMatrix(Matrix4x4& mat, const Rectf& viewport, float size, float zNear, float zFar)
+{
+	const float wideSize = (size * viewport.width()) / viewport.height();
+	const float left = -wideSize;
+	const float right = wideSize;
 	const float top = size;
 	const float bottom = -size;
 	const float far = -zFar;
