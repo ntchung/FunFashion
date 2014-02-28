@@ -1,6 +1,0 @@
-set PVRCOMPRESS8888=..\PVRTexToolCLI -f r8g8b8a8,UB,lRGB
-set PVRCOMPRESS888=..\PVRTexToolCLI -f r8g8b8,UB,lRGB
-set PVRCOMPRESSETC=..\PVRTexToolCLI -f ETC1,UB,lRGB -m
-set PVRCOMPRESSETCnm=..\PVRTexToolCLI -f ETC1,UB,lRGB
-
-set BUILD=..\..\build\data

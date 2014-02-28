@@ -5,4 +5,4 @@ for %%i in (core\*.shader) do (
 copy %%i ..\build\data\core_%%~ni%%~xi
 )
 
-call make_textures.bat
+call python make_textures.py
