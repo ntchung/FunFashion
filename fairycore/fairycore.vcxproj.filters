@@ -156,6 +156,9 @@
     <ClInclude Include="TextureCache.h">
       <Filter>engine</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -246,6 +249,9 @@
       <Filter>engine</Filter>
     </ClCompile>
     <ClCompile Include="TextureCache.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
       <Filter>engine</Filter>
     </ClCompile>
   </ItemGroup>

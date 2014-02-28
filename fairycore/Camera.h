@@ -19,7 +19,13 @@ public:
 		DEPTH_ONLY = GL_DEPTH_BUFFER_BIT,
 		COLOR_ONLY = GL_COLOR_BUFFER_BIT,
 		DEPTH_AND_COLOR = (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT),
-	};	
+	};
+
+	enum ProjectType
+	{
+		Perspective = 0,
+		Orthographic,
+	};
 
 	static Camera* create();
 	virtual void destroy();
@@ -31,6 +37,9 @@ public:
 
 	inline Vector3f& rotateVertexByView(Vector3f& vert) const { vert = m_view.rotate(vert); return vert; }
 	inline Vector3f& transformVertexByView(Vector3f& vert) const { vert = m_view * vert; return vert; }
+
+	inline ProjectType projectType() const { return m_projectType;  }
+	inline void setProjectType(ProjectType value) { m_projectType = value; m_isProjectionDirty = true; }
 
 protected:
 	Camera();
@@ -45,9 +54,15 @@ protected:
 	Matrix4x4 m_view;
 	Matrix4x4 m_projection;
 	Matrix4x4 m_worldviewprojection;
-
-	Rectf m_viewportRect;
 	bool m_isProjectionDirty;
+
+	Rectf m_viewportRect;	
+	ProjectType m_projectType;
+	float m_orthoSize;
+	float m_zNear;
+	float m_zFar;
+
+	static void buildOrthographicProjectionMatrix(Matrix4x4& mat, float size, float zNear, float zFar);
 };
 
 #endif // __CAMERA_H__

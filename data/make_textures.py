@@ -14,7 +14,7 @@ DATA_DIR				= os.getcwd()
 TEXTURES_DIR		= os.path.join(DATA_DIR, 'textures')
 BUILD_DIR				= os.path.join(DATA_DIR, '../build/data')
 
-PVRTexTool				= os.path.join(DATA_DIR, 'PVRTexToolCLI.exe')
+PVRTexTool				= os.path.join(DATA_DIR, 'PVRTexTool.exe')
 
 def getFileList(folder, extensions, recursive=False) :
 	listfiles = []
@@ -45,7 +45,7 @@ def main():
 			name = name
 
 		print format + ' : ' + os.path.basename(name) + '.pvr' + '\n'
-		spawn([PVRTexTool, '-i', src, '-f', format + ',UB,lRGB', '-o', os.path.join(BUILD_DIR, os.path.basename(name) + '.pvr')])		
+		spawn([PVRTexTool, '-nt', '-yflip0', '-i' + src, '-f' + format, '-o' + os.path.join(BUILD_DIR, os.path.basename(name) + '.pvr')])		
 
 if __name__ == "__main__":
 	main()

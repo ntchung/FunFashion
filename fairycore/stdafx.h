@@ -51,6 +51,7 @@
 #include "VertexList.h"
 #include "RenderState.h"
 #include "RenderBatch.h"
+#include "Renderer.h"
 #include "Camera.h"
 #include "FairyHeart.h"
 #include "FairyCore.h"

@@ -150,6 +150,7 @@
     <ClInclude Include="platform\DebugLog.h" />
     <ClInclude Include="platform\FileUtils.h" />
     <ClInclude Include="RenderBatch.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderState.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Shader.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="platform\windows\DebugLog.cpp" />
     <ClCompile Include="platform\windows\FileUtilsWindows.cpp" />
     <ClCompile Include="RenderBatch.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderState.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Shader.cpp" />

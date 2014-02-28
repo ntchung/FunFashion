@@ -45,4 +45,6 @@ void StateTest::render()
 void StateTest::onGUI()
 {
 	gui()->fillRect(Rectf(0, 0, 100, 100), Color32(0, 255, 0, 255));
+
+	gui()->fillRect(Rectf(200, 100, 100, 100), Color32(0, 255, 0, 255));
 }

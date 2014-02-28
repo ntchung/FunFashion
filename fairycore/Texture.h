@@ -7,15 +7,15 @@ class Texture : public SharedObject
 {
 public:
 	static Texture* create();
+	static Texture* create(char* data, int length);
 	virtual void destroy();
-
-	void loadPVR(const char* fileName);
 
 	unsigned int name() const { return m_hashName;  }
 	GLuint glName() const { return m_glName; }
 
 private:
 	Texture();
+	Texture(char* data, int length);
 	~Texture();
 
 	unsigned int m_hashName;

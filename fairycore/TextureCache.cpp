@@ -43,9 +43,8 @@ Texture* TextureCache::get(const char* name)
 		}
 	}
 
-	tex = Texture::create();
+	tex = Resources::shared()->load<Texture>(name);
 	tex->autorelease();
-	tex->loadPVR(name);
 
 	m_textures->add(tex);
 }

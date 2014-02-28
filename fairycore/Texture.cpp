@@ -1,8 +1,30 @@
 #include "stdafx.h"
 
+struct PVRHeader
+{
+	unsigned int HeaderLength;
+	unsigned int Height;
+	unsigned int Width;
+	unsigned int NumMipmaps;
+	unsigned int Flags;
+	unsigned int DataLength;
+	unsigned int BitsPerPixel;
+	unsigned int BitmaskRed;
+	unsigned int BitmaskGreen;
+	unsigned int BitmaskBlue;
+	unsigned int BitmaskAlpha;
+	char PVRTag[4];
+	unsigned int NumSurfs;
+};
+
 Texture* Texture::create()
 {
 	return new(true) Texture();
+}
+
+Texture* Texture::create(char* data, int length)
+{
+	return new(true) Texture(data, length);
 }
 
 void Texture::destroy()
@@ -25,7 +47,7 @@ Texture::~Texture()
 	}
 }
 
-void Texture::loadPVR(const char* fileName)
+Texture::Texture(char* data, int length)
 {
 	if (m_glName)
 	{
@@ -34,6 +56,15 @@ void Texture::loadPVR(const char* fileName)
 	}
 
 	m_hashName = String::makeHash(fileName);
-
 	glGenTextures(1, &m_glName);
+
+	MemoryStream* stream = MemoryStream::create(data, length);
+
+	int texType;
+	int _width, _height;
+
+	PVRHeader header;
+	stream->read(&header, 0, sizeof(PVRHeader));
+	
+	stream->close();
 }

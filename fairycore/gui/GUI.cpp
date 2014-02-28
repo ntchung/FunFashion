@@ -45,12 +45,6 @@ void GUI::present()
 		m_isProjectionDirty = false;
 	}
 
-	GLushort indices[6] =
-	{
-		0, 1, 2,
-		3, 0, 2,
-	};
-
 	m_renderBatch->draw();
 	
 	m_renderBatch->clear();
