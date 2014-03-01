@@ -114,8 +114,10 @@ public:
 
 	static int ClosestPowerOfTwo(int value)
 	{
-		// TODO
-		return value;
+		int next = NextPowerOfTwo(value);
+		int prev = next >> 1;
+		int mid = (prev + next) >> 1;
+		return value < mid ? prev : next;
 	}
 
 	inline static float Cos(float f)
@@ -206,8 +208,7 @@ public:
 
 	inline static bool IsPowerOfTwo(int value)
 	{
-		// TODO
-		return false;
+		return (value > 0) && ((value & (value - 1)) == 0);
 	}
 
 	inline static float Lerp(float from, float to, float t)
@@ -233,8 +234,7 @@ public:
 
 	inline static float Log(float f, float p)
 	{
-		// TODO
-		return 0.f;
+		return Log(f) / Log(p);
 	}
 
 	inline static float Log(float f)

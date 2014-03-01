@@ -24,7 +24,9 @@ public:
 	static const Vector3f zero;
 	static const Vector3f one;
 	static const Vector3f up;
-
+	static const Vector3f forward;
+	static const Vector3f right;
+	
 	//
 	// Fields
 	//
@@ -45,19 +47,9 @@ public:
 		return Vector3f(0.f, -1.f, 0.f);
 	}
 
-	static inline Vector3f forward()
-	{
-		return Vector3f(0.f, 0.f, 1.f);
-	}
-
 	static inline Vector3f left()
 	{
 		return Vector3f(-1.f, 0.f, 0.f);
-	}
-
-	static inline Vector3f right()
-	{
-		return Vector3f(1.f, 0.f, 0.f);
 	}
 
 	//
@@ -200,12 +192,28 @@ public:
 
 	static inline void OrthoNormalize(Vector3f& normal, Vector3f& tangent, Vector3f& binormal)
 	{
-		// TODO
+		Vector3f norm, tan, binorm;
+
+		normal.Normalize();
+		norm = normal;
+		tan = tangent.normalized();
+
+		Vector3f temp = Vector3f::Cross(norm, tan);
+		tangent = Vector3f::Cross(temp, norm);
+		tangent.Normalize();
+
+		binormal = Vector3f::Cross(norm, tangent);
+		binormal.Normalize();
 	}
 
 	static inline void OrthoNormalize(Vector3f& normal, Vector3f& tangent)
 	{
-		// TODO
+		normal.Normalize();
+		Vector3f norm = normal;
+		Vector3f tan = tangent.normalized();
+
+		tangent = tan - (norm * Vector3f::Dot(norm, tan));
+		tangent.Normalize();
 	}
 
 	static inline Vector3f Project(const Vector3f& vector, const Vector3f& onNormal)
@@ -235,7 +243,16 @@ public:
 
 	static inline Vector3f Slerp(const Vector3f& from, const Vector3f& to, float t)
 	{
-		// TODO
+		float dot = Vector3f::Dot(from, to);
+
+		if (dot < -1.0f) dot = -1.0f;
+		if (dot > 1.0f) dot = 1.0f;
+
+		float theta = Mathf::Acos(dot) * t;
+		Vector3f relative = (to - (from * dot));
+		relative.Normalize();
+
+		return ((from * Mathf::Cos(theta)) + (relative * Mathf::Sin(theta)));
 	}
 	
 	// TODO

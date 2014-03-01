@@ -2,427 +2,238 @@
 #define __TRANSFORM_H__
 
 #include "maths/Vector3f.h"
+#include "maths/Quaternion.h"
+#include "maths/Matrix4x4.h"
+#include "utils/SharedObject.h"
 
-struct Transform
+class Transform : public SharedObject
 {
 public:
-	/*
+	enum Space
+	{
+		Self = 0,
+		World
+	};
+	
 	//
 	// Properties
 	//
 	int childCount() const;	
 
-	public Vector3 eulerAngles
-	{
-		get
-		{
-		return this.rotation.eulerAngles;
-	}
-		set
-		{
-			this.rotation = Quaternion.Euler(value);
-		}
+	inline Vector3f eulerAngles()
+	{		
+		return this->rotation().eulerAngles();
 	}
 
-	public Vector3 forward
+	inline void setEulerAngles(const Vector3f& value)
 	{
-		get
-		{
-		return this.rotation * Vector3.forward;
-	}
-		set
-		{
-			this.rotation = Quaternion.LookRotation(value);
-		}
+		this->setRotation(Quaternion::Euler(value));
 	}
 
-	public extern bool hasChanged
+	inline Vector3f& forward() const
 	{
-		[WrapperlessIcall]
-		[MethodImpl(MethodImplOptions.InternalCall)]
-		get;
-		[WrapperlessIcall]
-		[MethodImpl(MethodImplOptions.InternalCall)]
-		set;
+		return this->rotation() * Vector3f::forward;
 	}
 
-	public Vector3 localEulerAngles
+	inline void setForward(const Vector3f& value)
 	{
-		get
-		{
-		Vector3 result;
-		this.INTERNAL_get_localEulerAngles(out result);
-		return result;
+		this->setRotation(Quaternion::LookRotation(value));
+	}	
+
+	bool hasChanged() const;
+	void setHasChanged(bool value);
+	
+	Vector3f localEulerAngles() const;
+	void setLocalEulerAngles(const Vector3f& value);
+	
+	Vector3f localPosition() const;
+	void setLocalPosition(const Vector3f& value);
+	
+	Quaternion localRotation() const;
+	void setLocalRotation(const Quaternion& value);
+	void transformLocalRotation(const Quaternion& value);
+	
+	Vector3f localScale() const;
+	void setLocalScale(const Vector3f& value) const;
+	
+	Matrix4x4 localToWorldMatrix() const;
+	
+	Vector3f lossyScale() const;
+
+	Transform* parent() const;
+	void setParent(Transform* parent);
+
+	Vector3f position() const;
+	void setPosition(const Vector3f& pos);
+	void translatePosition(const Vector3f& pos);
+		
+	inline Vector3f right() const
+	{
+		return this->rotation() * Vector3f::right;
 	}
-		set
-		{
-			this.INTERNAL_set_localEulerAngles(ref value);
-		}
+		
+	void setRight(const Vector3f& value)
+	{
+		this->setRotation(Quaternion::FromToRotation(Vector3f::right, value));
+	}
+	
+	Transform* root();
+	
+	Quaternion rotation() const;
+	void setRotation(const Quaternion& value);
+	void transformRotation(const Quaternion& value);
+
+	inline Vector3f up() const
+	{
+		return this->rotation() * Vector3f::up;
 	}
 
-	public Vector3 localPosition
-	{
-		get
-		{
-		Vector3 result;
-		this.INTERNAL_get_localPosition(out result);
-		return result;
-	}
-		set
-		{
-			this.INTERNAL_set_localPosition(ref value);
-		}
+	inline void setUp(const Vector3f& value)
+	{	
+		this->setRotation(Quaternion::FromToRotation(Vector3f::up, value));
 	}
 
-	public Quaternion localRotation
-	{
-		get
-		{
-		Quaternion result;
-		this.INTERNAL_get_localRotation(out result);
-		return result;
-	}
-		set
-		{
-			this.INTERNAL_set_localRotation(ref value);
-		}
-	}
-
-	public Vector3 localScale
-	{
-		get
-		{
-		Vector3 result;
-		this.INTERNAL_get_localScale(out result);
-		return result;
-	}
-		set
-		{
-			this.INTERNAL_set_localScale(ref value);
-		}
-	}
-
-	public Matrix4x4 localToWorldMatrix
-	{
-		get
-		{
-		Matrix4x4 result;
-		this.INTERNAL_get_localToWorldMatrix(out result);
-		return result;
-	}
-	}
-
-	public Vector3 lossyScale
-	{
-		get
-		{
-		Vector3 result;
-		this.INTERNAL_get_lossyScale(out result);
-		return result;
-	}
-	}
-
-	public extern Transform parent
-	{
-		[WrapperlessIcall]
-		[MethodImpl(MethodImplOptions.InternalCall)]
-		get;
-		[WrapperlessIcall]
-		[MethodImpl(MethodImplOptions.InternalCall)]
-		set;
-	}
-
-	public Vector3 position
-	{
-		get
-		{
-		Vector3 result;
-		this.INTERNAL_get_position(out result);
-		return result;
-	}
-		set
-		{
-			this.INTERNAL_set_position(ref value);
-		}
-	}
-
-	public Vector3 right
-	{
-		get
-		{
-		return this.rotation * Vector3.right;
-	}
-		set
-		{
-			this.rotation = Quaternion.FromToRotation(Vector3.right, value);
-		}
-	}
-
-	public extern Transform root
-	{
-		[WrapperlessIcall]
-		[MethodImpl(MethodImplOptions.InternalCall)]
-		get;
-	}
-
-	public Quaternion rotation
-	{
-		get
-		{
-		Quaternion result;
-		this.INTERNAL_get_rotation(out result);
-		return result;
-	}
-		set
-		{
-			this.INTERNAL_set_rotation(ref value);
-		}
-	}
-
-	public Vector3 up
-	{
-		get
-		{
-		return this.rotation * Vector3.up;
-	}
-		set
-		{
-			this.rotation = Quaternion.FromToRotation(Vector3.up, value);
-		}
-	}
-
-	public Matrix4x4 worldToLocalMatrix
-	{
-		get
-		{
-		Matrix4x4 result;
-		this.INTERNAL_get_worldToLocalMatrix(out result);
-		return result;
-	}
-	}
-
+	Matrix4x4 worldToLocalMatrix() const;
+	
 	//
 	// Methods
 	//
-	[WrapperlessIcall]
-	[MethodImpl(MethodImplOptions.InternalCall)]
-	public extern void DetachChildren();
+	void DetachChildren();	
+	Transform* FindChild(const char* name);
+	Transform* GetChild(int index);
 
-	[WrapperlessIcall]
-	[MethodImpl(MethodImplOptions.InternalCall)]
-	public extern Transform Find(string name);
+	Vector3f InverseTransformDirection(const Vector3f& direction);	
+	Vector3f InverseTransformDirection(float x, float y, float z);	
+	Vector3f InverseTransformPoint(float x, float y, float z);
+	Vector3f InverseTransformPoint(const Vector3f& position);
+	
+	bool IsChildOf(Transform* parent);
 
-	public Transform FindChild(string name)
+	inline void LookAt(Transform* target, const Vector3f& worldUp = Vector3f::up)
 	{
-		return this.Find(name);
+		this->LookAt(target->position(), worldUp);
+	}
+	
+	void LookAt(const Vector3f& worldPosition, const Vector3f& worldUp = Vector3f::up)
+	{
+		// TODO
 	}
 
-	[WrapperlessIcall]
-	[MethodImpl(MethodImplOptions.InternalCall)]
-	public extern Transform GetChild(int index);
-
-	[Obsolete("use Transform.childCount instead."), WrapperlessIcall]
-	[MethodImpl(MethodImplOptions.InternalCall)]
-	public extern int GetChildCount();
-
-	public IEnumerator GetEnumerator()
+	inline void Rotate(float xAngle, float yAngle, float zAngle)
 	{
-		return new Transform.Enumerator(this);
+		Space relativeTo = Self;
+		this->Rotate(xAngle, yAngle, zAngle, relativeTo);
 	}
 
-	public Vector3 InverseTransformDirection(Vector3 direction)
+	inline void Rotate(const Vector3f& eulerAngles)
 	{
-		return Transform.INTERNAL_CALL_InverseTransformDirection(this, ref direction);
+		Space relativeTo = Self;
+		this->Rotate(eulerAngles, relativeTo);
 	}
 
-	public Vector3 InverseTransformDirection(float x, float y, float z)
+	inline void Rotate(float xAngle, float yAngle, float zAngle, Space relativeTo = Self)
 	{
-		return this.InverseTransformDirection(new Vector3(x, y, z));
+		this->Rotate(Vector3f(xAngle, yAngle, zAngle), relativeTo);
 	}
 
-	public Vector3 InverseTransformPoint(float x, float y, float z)
+	inline void Rotate(const Vector3f& eulerAngles, Space relativeTo = Self)
 	{
-		return this.InverseTransformPoint(new Vector3(x, y, z));
-	}
-
-	public Vector3 InverseTransformPoint(Vector3 position)
-	{
-		return Transform.INTERNAL_CALL_InverseTransformPoint(this, ref position);
-	}
-
-	[WrapperlessIcall]
-	[MethodImpl(MethodImplOptions.InternalCall)]
-	public extern bool IsChildOf(Transform parent);
-
-	public void LookAt(Transform target, [DefaultValue("Vector3.up")] Vector3 worldUp)
-	{
-		if (target)
+		Quaternion rhs = Quaternion::Euler(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+		if (relativeTo == Self)
 		{
-			this.LookAt(target.position, worldUp);
-		}
-	}
-
-	[ExcludeFromDocs]
-	public void LookAt(Transform target)
-	{
-		Vector3 up = Vector3.up;
-		this.LookAt(target, up);
-	}
-
-	[ExcludeFromDocs]
-	public void LookAt(Vector3 worldPosition)
-	{
-		Vector3 up = Vector3.up;
-		Transform.INTERNAL_CALL_LookAt(this, ref worldPosition, ref up);
-	}
-
-	public void LookAt(Vector3 worldPosition, [DefaultValue("Vector3.up")] Vector3 worldUp)
-	{
-		Transform.INTERNAL_CALL_LookAt(this, ref worldPosition, ref worldUp);
-	}
-
-	[ExcludeFromDocs]
-	public void Rotate(float xAngle, float yAngle, float zAngle)
-	{
-		Space relativeTo = Space.Self;
-		this.Rotate(xAngle, yAngle, zAngle, relativeTo);
-	}
-
-	[ExcludeFromDocs]
-	public void Rotate(Vector3 eulerAngles)
-	{
-		Space relativeTo = Space.Self;
-		this.Rotate(eulerAngles, relativeTo);
-	}
-
-	public void Rotate(float xAngle, float yAngle, float zAngle, [DefaultValue("Space.Self")] Space relativeTo)
-	{
-		this.Rotate(new Vector3(xAngle, yAngle, zAngle), relativeTo);
-	}
-
-	public void Rotate(Vector3 eulerAngles, [DefaultValue("Space.Self")] Space relativeTo)
-	{
-		Quaternion rhs = Quaternion.Euler(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-		if (relativeTo == Space.Self)
-		{
-			this.localRotation *= rhs;
+			this->transformLocalRotation(rhs);
 		}
 		else
 		{
-			this.rotation *= Quaternion.Inverse(this.rotation) * rhs * this.rotation;
+			this->transformRotation(Quaternion::Inverse(this->rotation()) * rhs * this->rotation());
 		}
 	}
 
-	public void Rotate(Vector3 axis, float angle, [DefaultValue("Space.Self")] Space relativeTo)
+	inline void Rotate(const Vector3f& axis, float angle, Space relativeTo = Self)
 	{
-		if (relativeTo == Space.Self)
+		// TODO
+		if (relativeTo == Self)
 		{
-			this.RotateAroundInternal(base.transform.TransformDirection(axis), angle * 0.0174532924f);
+			//this->RotateAroundInternal(base.transform.TransformDirection(axis), angle * 0.0174532924f);
 		}
 		else
 		{
-			this.RotateAroundInternal(axis, angle * 0.0174532924f);
+			//this->RotateAroundInternal(axis, angle * 0.0174532924f);
 		}
 	}
-
-	[ExcludeFromDocs]
-	public void Rotate(Vector3 axis, float angle)
+	
+	inline void Rotate(const Vector3f& axis, float angle)
 	{
-		Space relativeTo = Space.Self;
-		this.Rotate(axis, angle, relativeTo);
+		Space relativeTo = Self;
+		this->Rotate(axis, angle, relativeTo);
 	}
 
-	public void RotateAround(Vector3 point, Vector3 axis, float angle)
+	inline void RotateAround(const Vector3f& point, const Vector3f& axis, float angle)
 	{
-		Vector3 vector = this.position;
-		Quaternion rotation = Quaternion.AngleAxis(angle, axis);
-		Vector3 vector2 = vector - point;
+		Vector3f vector = this->position();
+		Quaternion rotation = Quaternion::AngleAxis(angle, axis);
+		Vector3f vector2 = vector - point;
 		vector2 = rotation * vector2;
 		vector = point + vector2;
-		this.position = vector;
-		this.RotateAroundInternal(axis, angle * 0.0174532924f);
+		this->setPosition(vector);
+
+		// TODO
+		//this->RotateAroundInternal(axis, angle * Mathf::Deg2Rad);
 	}
 
-	[Obsolete("use Transform.Rotate instead.")]
-	public void RotateAround(Vector3 axis, float angle)
+	inline Vector3f TransformDirection(const Vector3f& direction)
 	{
-		Transform.INTERNAL_CALL_RotateAround(this, ref axis, angle);
+		// TODO
+		return Vector3f();
 	}
 
-	[Obsolete("use Transform.Rotate instead.")]
-	public void RotateAroundLocal(Vector3 axis, float angle)
+	inline Vector3f TransformDirection(float x, float y, float z)
 	{
-		Transform.INTERNAL_CALL_RotateAroundLocal(this, ref axis, angle);
+		return Vector3f();
 	}
 
-	public Vector3 TransformDirection(Vector3 direction)
+	inline Vector3f TransformPoint(float x, float y, float z)
 	{
-		return Transform.INTERNAL_CALL_TransformDirection(this, ref direction);
+		return this->TransformPoint(Vector3f(x, y, z));
 	}
 
-	public Vector3 TransformDirection(float x, float y, float z)
+	inline Vector3f TransformPoint(const Vector3f& position)
 	{
-		return this.TransformDirection(new Vector3(x, y, z));
+		// TODO
+		return Vector3f();
 	}
 
-	public Vector3 TransformPoint(float x, float y, float z)
+	inline void Translate(const Vector3f& translation, Space relativeTo = Self)
 	{
-		return this.TransformPoint(new Vector3(x, y, z));
-	}
-
-	public Vector3 TransformPoint(Vector3 position)
-	{
-		return Transform.INTERNAL_CALL_TransformPoint(this, ref position);
-	}
-
-	public void Translate(Vector3 translation, [DefaultValue("Space.Self")] Space relativeTo)
-	{
-		if (relativeTo == Space.World)
+		if (relativeTo == World)
 		{
-			this.position += translation;
+			this->translatePosition(translation);
 		}
 		else
 		{
-			this.position += this.TransformDirection(translation);
+			this->translatePosition(this->TransformDirection(translation));
 		}
 	}
 
-	[ExcludeFromDocs]
-	public void Translate(Vector3 translation)
+	inline void Translate(const Vector3f& translation, Transform* relativeTo)
 	{
-		Space relativeTo = Space.Self;
-		this.Translate(translation, relativeTo);
+		this->translatePosition(relativeTo->TransformDirection(translation));
 	}
 
-	public void Translate(Vector3 translation, Transform relativeTo)
+	inline void Translate(const Vector3f& translation)
 	{
-		if (relativeTo)
-		{
-			this.position += relativeTo.TransformDirection(translation);
-		}
-		else
-		{
-			this.position += translation;
-		}
+		translatePosition(translation);
 	}
 
-	public void Translate(float x, float y, float z, Transform relativeTo)
+	inline void Translate(float x, float y, float z, Transform* relativeTo)
 	{
-		this.Translate(new Vector3(x, y, z), relativeTo);
+		this->Translate(Vector3f(x, y, z), relativeTo);
 	}
 
-	[ExcludeFromDocs]
-	public void Translate(float x, float y, float z)
+	inline void Translate(float x, float y, float z, Space relativeTo = Self)
 	{
-		Space relativeTo = Space.Self;
-		this.Translate(x, y, z, relativeTo);
+		this->Translate(Vector3f(x, y, z), relativeTo);
 	}
-
-	public void Translate(float x, float y, float z, [DefaultValue("Space.Self")] Space relativeTo)
-	{
-		this.Translate(new Vector3(x, y, z), relativeTo);
-	}
-*/
 };
 
 #endif // __TRANSFORM_H__

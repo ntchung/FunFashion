@@ -49,7 +49,7 @@ protected:
 	Camera();
 	virtual ~Camera();
 
-	//Transform* m_transform;
+	Transform* m_transform;
 	Color4F m_backgroundColor;
 	ClearType m_clearType;
 
