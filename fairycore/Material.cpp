@@ -17,7 +17,7 @@ Material::Material(int name, Shader* shader)
 	m_shader = shader;
 	m_shader->retain();
 
-	const int queue = shader->getRenderQueue();
+	const int queue = shader->renderQueue();
 	m_sortingType = queue < RENDER_QUEUE_TRANSPARENT ? TRIANGLES_SORT_MATERIAL : queue < RENDER_QUEUE_OVERLAY ? TRIANGLES_SORT_BACK_TO_FRONT : TRIANGLES_SORT_NONE;
 
 	for( int i=0; i<MAX_TEXTURE_UNITS; ++i )

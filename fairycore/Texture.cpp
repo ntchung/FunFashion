@@ -47,7 +47,7 @@ Texture::~Texture()
 	}
 }
 
-void Texture::setName(const char* name)
+void Texture::setHashName(const char* name)
 {
 	m_hashName = String::makeHash(name);
 }

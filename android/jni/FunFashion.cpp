@@ -25,6 +25,7 @@ unsigned int screenWidth = 0;
 unsigned int screenHeight = 0;
 
 bool isGameInited;
+jobject refAssetManager;
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *jvm, void *reserved)
 {
@@ -134,7 +135,13 @@ JNI_RENDERER_NAME(updateRendering)(
 
 void JNI_ACTIVITY_NAME(createAssetManager)(JNIEnv* env, jclass clazz, jobject assetManager)
 {	
-	setupAssetManager(env, assetManager);
+	refAssetManager = env->NewGlobalRef(assetManager);
+	setupAssetManager(env, refAssetManager);
+}
+
+void JNI_ACTIVITY_NAME(releaseAssetManager)(JNIEnv* env, jclass clazz)
+{	
+	env->DeleteGlobalRef(refAssetManager);
 }
 
 #ifdef __cplusplus

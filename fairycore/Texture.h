@@ -10,9 +10,9 @@ public:
 	static Texture* create(char* data, int length);
 	virtual void destroy();
 
-	void setName(const char* name);
+	void setHashName(const char* name);
 	inline void setHashName(unsigned int value) { m_hashName = value; }
-	inline unsigned int name() const { return m_hashName; }
+	inline unsigned int hashName() const { return m_hashName; }
 	inline GLuint glName() const { return m_glName; }
 
 private:

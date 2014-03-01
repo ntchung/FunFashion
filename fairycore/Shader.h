@@ -24,14 +24,14 @@ public:
 	static Shader* create(char* data, int length);
 	virtual void destroy();
 
-	bool isAttributeRequired(int n) const;
-	int numAttributesRequired() const;
+	inline bool isAttributeRequired(int n) const { return m_isAttributeRequired[n]; }
+	inline int numAttributesRequired() const { return m_numAttributesRequired; }
 
-	GLuint shaderProgram() const;
+	inline GLuint shaderProgram() const { return m_shaderProgram; }
 
 	Array<SPVRTPFXUniform>& uniforms() const;
 
-	int getRenderQueue() const;
+	inline int renderQueue() const { return m_renderQueue; }
 
 private:
 	Shader(char* data, int length);

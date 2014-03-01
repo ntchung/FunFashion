@@ -62,7 +62,7 @@ RenderBatch* Camera::renderBatch(int queue)
 	for (int i = 0; i < m_renderBatches->count(); ++i)
 	{
 		RenderBatch* batch = (RenderBatch*)m_renderBatches->get(i);
-		if (batch->getRenderQueue() == queue)
+		if (batch->renderQueue() == queue)
 		{
 			return batch;
 		}

@@ -24,7 +24,7 @@ public:
 	void addVerticesP(GLfloat* positions, int count);
 	void addVerticesPC(GLfloat* positions, GLubyte* vertexColors, int count);
 
-	Material* getMaterial() const { return m_material;  }
+	Material* material() const { return m_material;  }
 	int count() const { return m_count; }
 
 	inline Vector3f getPos(int idx) const

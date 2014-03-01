@@ -23,6 +23,7 @@ public:
 	static const float kEpsilon;
 	static const Vector3f zero;
 	static const Vector3f one;
+	static const Vector3f up;
 
 	//
 	// Fields
@@ -41,7 +42,7 @@ public:
 
 	static inline Vector3f down()
 	{
-		return Vector3f(0.f, -1.f, 0.f);	
+		return Vector3f(0.f, -1.f, 0.f);
 	}
 
 	static inline Vector3f forward()
@@ -51,35 +52,30 @@ public:
 
 	static inline Vector3f left()
 	{
-		return Vector3f(-1.f, 0.f, 0.f);	
+		return Vector3f(-1.f, 0.f, 0.f);
 	}
 
 	static inline Vector3f right()
 	{
-		return Vector3f(1.f, 0.f, 0.f);	
+		return Vector3f(1.f, 0.f, 0.f);
 	}
-
-	static inline Vector3f up()
-	{
-		return Vector3f(0.f, 1.f, 0.f);	
-	}	
 
 	//
 	// Properties
 	//
 	inline float magnitude() const
 	{
-		return Mathf::Sqrt(this->x * this->x + this->y * this->y + this->z * this->z);	
+		return Mathf::Sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
 	}
 
 	inline Vector3f normalized() const
 	{
-		return Vector3f::Normalize(*this);	
+		return Vector3f::Normalize(*this);
 	}
 
 	inline float sqrMagnitude() const
 	{
-		return x * x + y * y + z * z;	
+		return x * x + y * y + z * z;
 	}
 
 	//
@@ -96,11 +92,18 @@ public:
 		}
 
 		return x;
-	}	
+	}
 
 	//
 	// Constructors
 	//
+	Vector3f()
+		: x(0)
+		, y(0)
+		, z(0)
+	{
+	}
+
 	Vector3f(float nx, float ny)
 		: x(nx)
 		, y(ny)

@@ -56,7 +56,7 @@ void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 	p->idx[2] = i2;
 
 	// Transparent
-	const int sortingType = vertexList->getMaterial()->sortingType();
+	const int sortingType = vertexList->material()->sortingType();
 	Triangle*& trianglesList = m_triangles[sortingType];
 	switch (sortingType)
 	{

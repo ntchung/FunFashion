@@ -23,7 +23,7 @@ public:
 	void draw();	
 	void clear();
 
-	inline int getRenderQueue() const { return m_queue; }
+	inline int renderQueue() const { return m_queue; }
 	
 private:
 	RenderBatch(Camera* camera, int queue);

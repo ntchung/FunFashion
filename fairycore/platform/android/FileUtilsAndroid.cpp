@@ -7,7 +7,7 @@ static AAssetManager* g_aassetManager = 0;
 
 void setupAssetManager(JNIEnv* env, jobject assetManager)
 {
-	g_aassetManager = AAssetManager_fromJava(env, env->NewGlobalRef(assetManager));
+	g_aassetManager = AAssetManager_fromJava(env, assetManager);
 }
 
 FileUtils::FileData FileUtils::getFileData(const char* fileName)

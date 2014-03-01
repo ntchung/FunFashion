@@ -11,6 +11,7 @@ public class MainActivity extends Activity {
 	private static final String NATIVE_LIB = "FunFashion"; 
 
     public native void createAssetManager(Object assetManager);
+    public native void releaseAssetManager();
 	
 	static
     {
@@ -51,6 +52,8 @@ public class MainActivity extends Activity {
         
         mRenderer.onActivityDestroy();
 				
+        releaseAssetManager();
+        
         System.gc();
     }
     

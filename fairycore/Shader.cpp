@@ -538,27 +538,7 @@ void Shader::cleanShaderProgram(GLuint uiProgramObject, GLuint uiFragShader, GLu
 	}
 }
 
-bool Shader::isAttributeRequired(int n) const
-{
-	return m_isAttributeRequired[n];
-}
-
-int Shader::numAttributesRequired() const
-{
-	return m_numAttributesRequired;
-}
-
 Array<SPVRTPFXUniform>& Shader::uniforms() const
 {
 	return *m_uniforms;
-}
-
-GLuint Shader::shaderProgram() const
-{
-	return m_shaderProgram;
-}
-
-int Shader::getRenderQueue() const
-{
-	return m_renderQueue;
 }

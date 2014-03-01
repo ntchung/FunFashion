@@ -45,7 +45,7 @@ void TestRenderer::draw(Camera* camera)
 	int count = m_vertexList->count();
 	m_vertexList->addVerticesPC(vertices, vertexColors, 4);
 
-	RenderBatch* batch = camera->renderBatch(m_material->shader()->getRenderQueue());
+	RenderBatch* batch = camera->renderBatch(m_material->shader()->renderQueue());
 	batch->addTriangle(m_vertexList, count, count + 1, count + 2);
 	batch->addTriangle(m_vertexList, count + 3, count, count + 2);
 }

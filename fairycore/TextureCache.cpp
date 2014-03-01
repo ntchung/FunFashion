@@ -29,7 +29,7 @@ TextureCache::~TextureCache()
 	m_textures->release();
 }
 
-Texture* TextureCache::get(const char* name)
+Texture* TextureCache::texture(const char* name)
 {
 	Texture* tex;
 	unsigned int hashName = String::makeHash(name);
@@ -37,7 +37,7 @@ Texture* TextureCache::get(const char* name)
 	for (int i = m_textures->count() - 1; i >= 0; --i)
 	{
 		tex = (Texture*)m_textures->get(i);
-		if (tex->name() == hashName)
+		if (tex->hashName() == hashName)
 		{
 			return tex;
 		}
@@ -48,6 +48,7 @@ Texture* TextureCache::get(const char* name)
 	tex->setHashName(hashName);
 
 	m_textures->add(tex);
+	return tex;
 }
 
 void TextureCache::clear()

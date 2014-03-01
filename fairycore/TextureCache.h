@@ -10,7 +10,7 @@ public:
 	static TextureCache* shared();
 	virtual void destroy();
 
-	Texture* get(const char* name);
+	Texture* texture(const char* name);
 	void clear();
 
 private:

@@ -89,7 +89,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;../desktop/PowerVR</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -120,7 +120,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;../desktop/PowerVR</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -144,6 +144,7 @@
     <ClInclude Include="maths\Mathf.h" />
     <ClInclude Include="maths\Maths.h" />
     <ClInclude Include="maths\Matrix4x4.h" />
+    <ClInclude Include="maths\Quaternion.h" />
     <ClInclude Include="maths\Rectf.h" />
     <ClInclude Include="maths\Vector2f.h" />
     <ClInclude Include="maths\Vector3f.h" />
