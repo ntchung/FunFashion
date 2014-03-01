@@ -20,6 +20,7 @@ TextureCache.cpp \
 VertexList.cpp \
 RenderState.cpp \
 RenderBatch.cpp \
+Renderer.cpp \
 Camera.cpp \
 FairyCore.cpp \
 FairyHeart.cpp \

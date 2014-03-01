@@ -43,6 +43,8 @@ Shader::~Shader()
 
 void Shader::load(StreamReader* reader)
 {
+	DebugLog::print("Parsing shader...");
+
 	reader->retain();
 	while (!reader->endOfStream())
 	{
@@ -71,8 +73,11 @@ void Shader::load(StreamReader* reader)
 		SharedObject::autoReleaseGC();
 	}
 
+	DebugLog::print("Compiling shader...");
 	build();
 	reader->release();
+
+	DebugLog::print("Done!");
 }
 
 void Shader::build()

@@ -9,6 +9,8 @@ import android.view.View;
 public class MainActivity extends Activity {
 	
 	private static final String NATIVE_LIB = "FunFashion"; 
+
+    public native void createAssetManager(Object assetManager);
 	
 	static
     {
@@ -37,6 +39,8 @@ public class MainActivity extends Activity {
         mGlView.setRenderMode( GLSurfaceView.RENDERMODE_CONTINUOUSLY );
 
         setContentView(mGlView);
+
+        createAssetManager(getAssets());
     }
     
     /** The final call you receive before your activity is destroyed.*/
@@ -86,5 +90,5 @@ public class MainActivity extends Activity {
     
     public void onBackPressed() 
 	{
-    }
+    }    
 }

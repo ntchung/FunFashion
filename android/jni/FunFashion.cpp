@@ -8,6 +8,7 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
+#include "platform/android/fairycore_android.h"
 #include "FashionGame.h"
 
 #define LOG(...)	__android_log_print(ANDROID_LOG_INFO, "FunFashion", __VA_ARGS__)
@@ -32,7 +33,6 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *jvm, void *reserved)
 	
 	JNIEnv *env;
 	int status = gJVM->GetEnv((void **)&env, JNI_VERSION_1_6);
-	
 	if(status < 0)
 	{
 		LOG("Failed to get JNI environment, assuming native thread");
@@ -68,6 +68,7 @@ JNIEnv* getJNIEnv()
 	return env;
 }
 
+#define JNI_ACTIVITY_NAME(func) Java_com_fairylogic_funfashion_MainActivity_##func
 #define JNI_RENDERER_NAME(func) Java_com_fairylogic_funfashion_FashionRenderer_##func
 
 JNIEXPORT void JNICALL
@@ -129,6 +130,11 @@ JNI_RENDERER_NAME(updateRendering)(
 	LOG("Screen (%d,%d)", screenWidth, screenHeight );
 	
 	gameSetScreenSize(screenWidth, screenHeight);
+}
+
+void JNI_ACTIVITY_NAME(createAssetManager)(JNIEnv* env, jclass clazz, jobject assetManager)
+{	
+	setupAssetManager(env, assetManager);
 }
 
 #ifdef __cplusplus

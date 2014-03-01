@@ -68,9 +68,12 @@ void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 
 	case TRIANGLES_SORT_BACK_TO_FRONT:
 		{
-			const GLfloat z0 = m_camera->rotateVertexByView(vertexList->getPos(i0)).z;
-			const GLfloat z1 = m_camera->rotateVertexByView(vertexList->getPos(i1)).z;
-			const GLfloat z2 = m_camera->rotateVertexByView(vertexList->getPos(i2)).z;
+			Vector3f p0 = vertexList->getPos(i0);
+			Vector3f p1 = vertexList->getPos(i1);
+			Vector3f p2 = vertexList->getPos(i2);
+			const GLfloat z0 = m_camera->rotateVertexByView(p0).z;
+			const GLfloat z1 = m_camera->rotateVertexByView(p1).z;
+			const GLfloat z2 = m_camera->rotateVertexByView(p2).z;
 			p->maxZ = Mathf::Max(z0, z1, z2);
 	
 			Triangle* temp = trianglesList;

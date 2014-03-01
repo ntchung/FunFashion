@@ -28,8 +28,10 @@
 #define ASSERT(_x)		((void)0)
 #endif
 
+#ifdef WIN32
 #ifndef INT_MAX
 #define INT_MAX       2147483647    /* maximum (signed) int value */
+#endif
 #endif
 
 #define STREAM__BUFFER_SIZE				512
