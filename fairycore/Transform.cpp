@@ -1,13 +1,10 @@
 #include "stdafx.h"
 
-Transform* Transform::create(bool isAutoRelease)
+static Transform* g_transformRoot = 0;
+
+Transform* Transform::create(Transform* parent)
 {
-	Transform* ptr = new(true) Transform();
-	if (isAutoRelease)
-	{
-		ptr->autorelease();
-	}
-	return ptr;
+	return new(true) Transform(parent);	
 }
 
 void Transform::destroy()
@@ -20,7 +17,19 @@ Transform::Transform()
 : m_parent(NULL)
 , m_firstChild(NULL)
 , m_nextSibling(NULL)
+, m_scale(Vector3f::one)
+, m_isIdentity(true)
 {
+}
+
+Transform::Transform(Transform* parent)
+: m_parent(NULL)
+, m_firstChild(NULL)
+, m_nextSibling(NULL)
+, m_scale(Vector3f::one)
+, m_isIdentity(true)
+{
+	setParent(parent);
 }
 
 Transform::~Transform()
@@ -41,7 +50,10 @@ void Transform::DetachChildren()
 	while (child)
 	{
 		child->m_parent = NULL; // do not need to tackle with my children list, just find your new parent
-		child->setParent(this->m_parent);
+		if (this->m_parent)
+		{
+			child->setParent(this->m_parent);
+		}
 		child = child->m_nextSibling;
 	}
 }
@@ -74,12 +86,9 @@ void Transform::setParent(Transform* parent)
 	}
 
 	// Add me to the new family
-	m_parent = parent;
-	if (m_parent)
-	{
-		this->m_nextSibling = m_parent->m_firstChild;
-		m_parent->m_firstChild = this;
-	}
+	m_parent = parent ? parent : g_transformRoot;
+	this->m_nextSibling = m_parent->m_firstChild;
+	m_parent->m_firstChild = this;	
 }
 
 int Transform::childCount() const
@@ -117,15 +126,43 @@ void Transform::TransformPoints(float* positions, int size)
 {
 	for (int i = 0; i < size; i += 3)
 	{
-		const float x = positions[i];
-		const float y = positions[i+1];
-		const float z = positions[i+2];
+		Vector3f t = m_worldMatrix * Vector3f(positions[i], positions[i + 1], positions[i + 2]);
+		positions[i] = t.x;
+		positions[i+1] = t.y;
+		positions[i+2] = t.z;
+	}
+}
 
+void Transform::setup()
+{
+	g_transformRoot = new(true) Transform();
+	g_transformRoot->autorelease();
+	g_transformRoot->retain();
+}
 
+void Transform::update()
+{
+	update(g_transformRoot);
+}
+
+void Transform::update(Transform* root)
+{
+	Transform* p = root->m_firstChild;
+	while (p)
+	{
+		p->UpdateMatrix();
+
+		update(p);
+		p = p->m_nextSibling;
 	}
 }
 
 void Transform::UpdateMatrix()
 {
-	
+	if (!m_isIdentity)
+	{
+		m_localMatrix.set(m_position, m_rotation, m_scale);
+	}
+
+	m_worldMatrix = m_parent->m_worldMatrix * m_localMatrix;
 }

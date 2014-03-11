@@ -26,6 +26,9 @@ public:
 	static const Vector3f up;
 	static const Vector3f forward;
 	static const Vector3f right;
+	static const Vector3f back;
+	static const Vector3f down;
+	static const Vector3f left;
 	
 	//
 	// Fields
@@ -33,24 +36,6 @@ public:
 	float z;
 	float y;
 	float x;
-
-	//
-	// Static Properties
-	//
-	static inline Vector3f back()
-	{
-		return Vector3f(0.f, 0.f, -1.f);
-	}
-
-	static inline Vector3f down()
-	{
-		return Vector3f(0.f, -1.f, 0.f);
-	}
-
-	static inline Vector3f left()
-	{
-		return Vector3f(-1.f, 0.f, 0.f);
-	}
 
 	//
 	// Properties

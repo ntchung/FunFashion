@@ -12,6 +12,9 @@ LOCAL_SRC_FILES := \
 platform/FileUtils.cpp \
 platform/android/DebugLog.cpp \
 platform/android/FileUtilsAndroid.cpp \
+platform/android/TimerAndroid.cpp \
+Input.cpp \
+Timer.cpp \
 Resources.cpp \
 Shader.cpp \
 Material.cpp \

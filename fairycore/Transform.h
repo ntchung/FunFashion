@@ -9,7 +9,7 @@
 class Transform : public SharedObject
 {
 public:
-	static Transform* create(bool isAutoRelease = true);
+	static Transform* create(Transform* parent = NULL);
 	virtual void destroy();
 
 	enum Space
@@ -56,10 +56,10 @@ public:
 	void setLocalRotation(const Quaternion& value);
 	void transformLocalRotation(const Quaternion& value);
 	
-	Vector3f localScale() const;
-	void setLocalScale(const Vector3f& value) const;
+	inline Vector3f localScale() const { return m_scale; }
+	inline void setLocalScale(const Vector3f& value) { m_scale = value; m_isIdentity = false; }
 	
-	Matrix4x4 localToWorldMatrix() const;
+	inline Matrix4x4 localToWorldMatrix() const { return m_worldMatrix; }
 	
 	Vector3f lossyScale() const;
 
@@ -96,7 +96,7 @@ public:
 		this->setRotation(Quaternion::FromToRotation(Vector3f::up, value));
 	}
 
-	Matrix4x4 worldToLocalMatrix() const;
+	inline Matrix4x4 worldToLocalMatrix() const { return m_localMatrix; }
 	
 	//
 	// Methods
@@ -242,10 +242,12 @@ public:
 	}
 
 	// Engine use
-	void UpdateMatrix();
+	static void setup();
+	static void update();	
 
 private:
 	Transform();
+	Transform(Transform* parent);
 	~Transform();
 
 	Transform* m_parent;
@@ -258,6 +260,12 @@ private:
 
 	Matrix4x4 m_worldMatrix;
 	Matrix4x4 m_localMatrix;
+
+	static void update(Transform* root);
+	
+	void UpdateMatrix();
+
+	bool m_isIdentity;
 };
 
 #endif // __TRANSFORM_H__

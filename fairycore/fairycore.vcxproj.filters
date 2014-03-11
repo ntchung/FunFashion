@@ -162,6 +162,12 @@
     <ClInclude Include="RenderTexture.h">
       <Filter>engine</Filter>
     </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -256,6 +262,15 @@
     </ClCompile>
     <ClCompile Include="RenderTexture.cpp">
       <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\windows\TimerWindows.cpp">
+      <Filter>platform</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

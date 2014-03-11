@@ -24,6 +24,9 @@ const Vector3f Vector3f::one(1.f, 1.f, 1.f);
 const Vector3f Vector3f::up(0.f, 1.f, 0.f);
 const Vector3f Vector3f::forward(0.f, 0.f, 1.f);
 const Vector3f Vector3f::right(1.f, 0.f, 0.f);
+const Vector3f Vector3f::back(0.f, 0.f, -1.f);
+const Vector3f Vector3f::down(0.f, -1.f, 0.f);
+const Vector3f Vector3f::left(-1.f, 0.f, 0.f);
 
 // Quaternion
 const float Quaternion::kEpsilon = 1E-06f;

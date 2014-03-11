@@ -45,6 +45,8 @@
 #include "utils/UIDGenerator.h"
 
 #include "FairyTypes.h"
+#include "Timer.h"
+#include "Input.h"
 #include "Resources.h"
 #include "Transform.h"
 #include "Shader.h"

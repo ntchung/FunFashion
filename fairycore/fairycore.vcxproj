@@ -139,6 +139,7 @@
     <ClInclude Include="FairyHeart.h" />
     <ClInclude Include="FairyTypes.h" />
     <ClInclude Include="gui\GUI.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="maths\Color32.h" />
     <ClInclude Include="maths\Mathf.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="utils\Array.h" />
     <ClInclude Include="utils\ByteArray.h" />
@@ -183,12 +185,14 @@
     <ClCompile Include="FairyCore.cpp" />
     <ClCompile Include="FairyHeart.cpp" />
     <ClCompile Include="gui\GUI.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="maths\Mathf.cpp" />
     <ClCompile Include="maths\Matrix4x4.cpp" />
     <ClCompile Include="platform\FileUtils.cpp" />
     <ClCompile Include="platform\windows\DebugLog.cpp" />
     <ClCompile Include="platform\windows\FileUtilsWindows.cpp" />
+    <ClCompile Include="platform\windows\TimerWindows.cpp" />
     <ClCompile Include="RenderBatch.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderState.cpp" />
@@ -202,6 +206,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="utils\ByteArray.cpp" />
     <ClCompile Include="utils\List.cpp" />

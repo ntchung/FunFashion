@@ -2,6 +2,7 @@
 #define __MATRIX4x4_H__
 
 #include "maths/Vector3f.h"
+#include "maths/Quaternion.h"
 
 struct Matrix4x4
 {
@@ -28,6 +29,8 @@ public:
 
 	Vector3f operator * (const Vector3f& vec) const;
 	Matrix4x4 operator * (const Matrix4x4& mat) const;
+
+	void set(const Vector3f& position, const Quaternion& rotation, const Vector3f& scale);
 };
 
 #endif // __MATRIX4x4_H__
