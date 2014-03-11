@@ -9,7 +9,7 @@ class Material : public SharedObject
 	friend class RenderState;
 
 public:
-	static Material* create(int name, Shader* shader);
+	static Material* create(int name, Shader* shader, bool isAutoRelease = true);
 	virtual void destroy();
 
 	inline int name() const { return m_name; }

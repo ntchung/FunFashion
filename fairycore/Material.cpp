@@ -1,8 +1,13 @@
 #include "stdafx.h"
 
-Material* Material::create(int name, Shader* shader)
+Material* Material::create(int name, Shader* shader, bool isAutoRelease)
 {
-	return new(true) Material(name, shader);
+	Material* ptr = new(true) Material(name, shader);
+	if (isAutoRelease)
+	{
+		ptr->autorelease();
+	}
+	return ptr;
 }
 
 void Material::destroy()
@@ -70,6 +75,7 @@ void Material::endTexturing()
 	for (int i = 0; i < MAX_TEXTURE_UNITS; ++i)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		if (m_textures[i])
 		{

@@ -13,6 +13,7 @@ void SharedObject::setup()
 SharedObject::SharedObject()
 : m_referenceCount(1)
 , m_isAutoRelease(false)
+, m_hashName(0)
 {
 
 }
@@ -91,4 +92,9 @@ bool SharedObject::commenceDestroy()
 	}
 
 	return false;
+}
+
+void SharedObject::setHashName(const char* name)
+{
+	m_hashName = String::makeHash(name);
 }

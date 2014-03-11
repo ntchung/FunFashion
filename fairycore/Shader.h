@@ -21,7 +21,7 @@ class Shader : public SharedObject
 	friend class RenderState;
 
 public:
-	static Shader* create(char* data, int length);
+	static Shader* create(char* data, int length, bool isAutoRelease = true);
 	virtual void destroy();
 
 	inline bool isAttributeRequired(int n) const { return m_isAttributeRequired[n]; }

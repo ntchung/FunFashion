@@ -27,7 +27,13 @@
     <ClInclude Include="StateTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestRenderer.h">
+    <ClInclude Include="StatePlay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PictureRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,7 +47,10 @@
     <ClCompile Include="StateTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestRenderer.cpp">
+    <ClCompile Include="StatePlay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PictureRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

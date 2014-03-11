@@ -1,8 +1,13 @@
 #include "stdafx.h"
 
-Shader* Shader::create(char* data, int length)
+Shader* Shader::create(char* data, int length, bool isAutoRelease)
 {
-	return new(true) Shader(data, length);
+	Shader* ptr = new(true) Shader(data, length);
+	if (isAutoRelease)
+	{
+		ptr->autorelease();
+	}
+	return ptr;
 }
 
 void Shader::destroy()
@@ -68,9 +73,7 @@ void Shader::load(StreamReader* reader)
 				m_strFragmentShader = ByteArray::create(false);
 				processShader(reader, "[/FRAGMENTSHADER]", m_strFragmentShader);
 			}
-		}
-
-		SharedObject::autoReleaseGC();
+		}		
 	}
 
 	DebugLog::print("Compiling shader...");
@@ -140,8 +143,6 @@ void Shader::processEffectInfo(StreamReader* reader)
 {
 	while (!reader->endOfStream())
 	{
-		SharedObject::autoReleaseGC();
-
 		ByteArray* line = reader->readLineToBytes();
 
 		if (line)
@@ -419,8 +420,6 @@ void Shader::processShader(StreamReader* reader, const char* endtag, ByteArray* 
 				}				
 			}
 		}
-
-		SharedObject::autoReleaseGC();
 	}
 }
 

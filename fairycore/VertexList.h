@@ -22,6 +22,7 @@ public:
 	void requestCapacity(int count);
 
 	void addVerticesP(GLfloat* positions, int count);
+	void addVerticesPU(GLfloat* positions, GLfloat* uvs, int count);
 	void addVerticesPC(GLfloat* positions, GLubyte* vertexColors, int count);
 
 	Material* material() const { return m_material;  }

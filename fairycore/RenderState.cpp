@@ -32,6 +32,8 @@ RenderState::~RenderState()
 
 void RenderState::init()
 {
+	m_currentMaterial = NULL;
+
 	glDepthMask(GL_FALSE);
 	m_isZWriting = false;
 
@@ -139,8 +141,8 @@ void RenderState::set(Material* mat)
 				}
 			}
 
-			this->set(mat->m_shader);
 			glUseProgram(mat->m_shader->shaderProgram());
+			this->set(mat->m_shader);			
 		}
 	}
 }

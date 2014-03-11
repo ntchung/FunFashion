@@ -10,7 +10,8 @@ LOCAL_MODULE_FILENAME := libfashiongame
 
 LOCAL_SRC_FILES := \
 FashionGame.cpp \
-TestRenderer.cpp \
+PictureRenderer.cpp \
+StatePlay.cpp \
 StateTest.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)

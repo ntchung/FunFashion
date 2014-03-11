@@ -16,7 +16,7 @@ Resources.cpp \
 Shader.cpp \
 Material.cpp \
 Texture.cpp \
-TextureCache.cpp \
+RenderTexture.cpp \
 VertexList.cpp \
 RenderState.cpp \
 RenderBatch.cpp \

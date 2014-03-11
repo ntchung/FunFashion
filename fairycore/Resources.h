@@ -4,6 +4,8 @@
 #include "platform/FileUtils.h"
 #include "utils/SharedObject.h"
 
+class List;
+
 class Resources : public SharedObject
 {
 public:
@@ -11,9 +13,16 @@ public:
 
 	template <class T> T* load(const char* filename)
 	{
-		FileUtils::FileData fileData = FileUtils::shared()->getFileData(filename);		
-		T* obj = T::create(fileData.bytes, fileData.size);
-		FileUtils::shared()->recycleFileData(fileData);
+		T* obj = (T*)findInCache(filename);
+		if (!obj)
+		{
+			FileUtils::FileData fileData = FileUtils::shared()->getFileData(filename);
+			obj = T::create(fileData.bytes, fileData.size);
+			FileUtils::shared()->recycleFileData(fileData);
+
+			m_cachedObjects->add(obj);
+		}
+
 		return obj;
 	}
 
@@ -22,6 +31,10 @@ private:
 	~Resources();
 
 	virtual void destroy();
+
+	SharedObject* findInCache(const char* name);
+
+	List* m_cachedObjects;
 };
 
 #endif // __RESOURCES_H__

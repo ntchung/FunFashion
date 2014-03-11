@@ -133,15 +133,42 @@ JNI_RENDERER_NAME(updateRendering)(
 	gameSetScreenSize(screenWidth, screenHeight);
 }
 
-void JNI_ACTIVITY_NAME(createAssetManager)(JNIEnv* env, jclass clazz, jobject assetManager)
+JNIEXPORT void JNICALL JNI_ACTIVITY_NAME(createAssetManager)(JNIEnv* env, jobject obj, jobject assetManager)
 {	
 	refAssetManager = env->NewGlobalRef(assetManager);
 	setupAssetManager(env, refAssetManager);
 }
 
-void JNI_ACTIVITY_NAME(releaseAssetManager)(JNIEnv* env, jclass clazz)
+JNIEXPORT void JNICALL JNI_ACTIVITY_NAME(releaseAssetManager)(JNIEnv* env, jobject obj)
 {	
 	env->DeleteGlobalRef(refAssetManager);
+}
+
+JNIEXPORT void JNICALL JNI_ACTIVITY_NAME(setBackgroundPicture)(JNIEnv* env, jobject obj, jintArray pixels, jint width, jint height)
+{	
+	// Get data
+	jboolean isCopy;
+    jint* dbuffer = env->GetIntArrayElements(pixels, &isCopy);
+    if (dbuffer == NULL)
+    {
+        LOG("Failed to get data buffer.");
+        return;
+    }
+
+	gameSetBackgroundPicture(dbuffer, width, height);
+
+	// Release
+    env->ReleaseIntArrayElements(pixels, dbuffer, JNI_ABORT);
+}
+
+JNIEXPORT void JNICALL JNI_ACTIVITY_NAME(requestScreenShot)(JNIEnv* env, jobject obj, jstring filePath)
+{
+	jboolean isCopy;
+	const char* temp = env->GetStringUTFChars( filePath, &isCopy ) ;
+
+	gameRequestScreenshot(temp);
+
+	env->ReleaseStringUTFChars( filePath, temp );
 }
 
 #ifdef __cplusplus

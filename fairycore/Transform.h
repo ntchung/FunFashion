@@ -9,11 +9,14 @@
 class Transform : public SharedObject
 {
 public:
+	static Transform* create(bool isAutoRelease = true);
+	virtual void destroy();
+
 	enum Space
 	{
 		Self = 0,
 		World
-	};
+	};	
 	
 	//
 	// Properties
@@ -30,7 +33,7 @@ public:
 		this->setRotation(Quaternion::Euler(value));
 	}
 
-	inline Vector3f& forward() const
+	inline Vector3f forward() const
 	{
 		return this->rotation() * Vector3f::forward;
 	}
@@ -77,7 +80,7 @@ public:
 		this->setRotation(Quaternion::FromToRotation(Vector3f::right, value));
 	}
 	
-	Transform* root();
+	Transform* root() const;
 	
 	Quaternion rotation() const;
 	void setRotation(const Quaternion& value);
@@ -189,6 +192,7 @@ public:
 
 	inline Vector3f TransformDirection(float x, float y, float z)
 	{
+		// TODO
 		return Vector3f();
 	}
 
@@ -203,6 +207,8 @@ public:
 		return Vector3f();
 	}
 
+	void TransformPoints(float* positions, int size);
+	
 	inline void Translate(const Vector3f& translation, Space relativeTo = Self)
 	{
 		if (relativeTo == World)
@@ -234,6 +240,24 @@ public:
 	{
 		this->Translate(Vector3f(x, y, z), relativeTo);
 	}
+
+	// Engine use
+	void UpdateMatrix();
+
+private:
+	Transform();
+	~Transform();
+
+	Transform* m_parent;
+	Transform* m_firstChild;
+	Transform* m_nextSibling;
+
+	Quaternion m_rotation;
+	Vector3f m_position;
+	Vector3f m_scale;
+
+	Matrix4x4 m_worldMatrix;
+	Matrix4x4 m_localMatrix;
 };
 
 #endif // __TRANSFORM_H__

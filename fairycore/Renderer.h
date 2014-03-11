@@ -13,7 +13,6 @@ public:
 	void setMaterial(Material* value);
 	inline Material* material() const { return m_material; }
 
-	virtual void draw(Camera* camera) = 0;
 	void reset();
 
 protected:

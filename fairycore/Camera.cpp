@@ -12,13 +12,14 @@ void Camera::destroy()
 }
 
 Camera::Camera()
-: m_backgroundColor(1.0f, 1.0f, 1.0f, 1.0f)
+: m_backgroundColor(0.0f, 0.0f, 0.0f, 1.0f)
 , m_clearType(DEPTH_AND_COLOR)
 , m_isProjectionDirty(true)
 , m_projectType(Orthographic)
 , m_orthoSize(4)
 , m_zNear(0.3f)
 , m_zFar(1000.0f)
+, m_renderTexture(NULL)
 {
 	m_renderBatches = List::create(false);
 	m_renderBatches->retain();
@@ -26,17 +27,33 @@ Camera::Camera()
 
 Camera::~Camera()
 {
+	SAFE_RELEASE(m_renderTexture);
 	m_renderBatches->release();
 }
 
 void Camera::present()
 {
+	// Viewport
+	Rectf viewportRect;
+	if (m_renderTexture)
+	{
+		glViewport(0, 0, m_renderTexture->width(), m_renderTexture->height());
+		m_renderTexture->begin();
+
+		viewportRect = Rectf(0, 0, m_renderTexture->width(), m_renderTexture->height());
+	}
+	else
+	{
+		glViewport((GLint)m_viewportRect.x(), (GLint)m_viewportRect.y(), (GLsizei)m_viewportRect.width(), (GLsizei)m_viewportRect.height());
+		viewportRect = m_viewportRect;
+	}
+
 	// Prepare matrices
 	if (m_isProjectionDirty)
 	{
 		if (m_projectType == Orthographic)
 		{
-			buildOrthographicProjectionMatrix(m_projection, m_viewportRect, m_orthoSize, m_zNear, m_zFar);
+			buildOrthographicProjectionMatrix(m_projection, viewportRect, m_orthoSize, m_zNear, m_zFar, m_renderTexture != NULL);
 		}
 		m_isProjectionDirty = false;
 	}	
@@ -54,6 +71,11 @@ void Camera::present()
 		RenderBatch* batch = (RenderBatch*)m_renderBatches->get(i);
 		batch->draw();
 		batch->clear();
+	}
+
+	if (m_renderTexture)
+	{
+		m_renderTexture->end();
 	}
 }
 
@@ -74,13 +96,19 @@ RenderBatch* Camera::renderBatch(int queue)
 	return batch;
 }
 
-void Camera::buildOrthographicProjectionMatrix(Matrix4x4& mat, const Rectf& viewport, float size, float zNear, float zFar)
+void Camera::setRenderTexture(RenderTexture* rt)
+{ 
+	m_renderTexture = rt;
+	m_renderTexture->retain(); 
+}
+
+void Camera::buildOrthographicProjectionMatrix(Matrix4x4& mat, const Rectf& viewport, float size, float zNear, float zFar, bool flipY)
 {
-	const float wideSize = (size * viewport.width()) / viewport.height();
+	const float wideSize = (size * viewport.width() ) / viewport.height();
 	const float left = -wideSize;
 	const float right = wideSize;
-	const float top = size;
-	const float bottom = -size;
+	const float top = flipY ? - size : size;
+	const float bottom = flipY ? size : -size;
 	const float far = -zFar;
 	const float near = zNear;
 

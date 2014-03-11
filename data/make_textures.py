@@ -26,26 +26,46 @@ def getFileList(folder, extensions, recursive=False) :
 	return listfiles
 
 def main():
-	imagesList = getFileList(TEXTURES_DIR, ['.png', '.tga'], True)
+	imagesList = getFileList(TEXTURES_DIR, ['.meta'], True)
 	for image in imagesList:
-		src = os.path.abspath(image)
-		try:
-			name = src[0 : src.rindex('.')]		
-		except:
-			name = src
-			
-		try:
-			format = name[name.rindex('.') + 1 : len(name)]
-		except:
-			format = 'r8g8b8a8'
-			
-		try:
-			name = name[0 : name.rindex('.')]
-		except:
-			name = name
+		meta = os.path.abspath(image)
 
-		print format + ' : ' + os.path.basename(name) + '.pvr' + '\n'
-		spawn([PVRTexTool, '-nt', '-yflip0', '-i' + src, '-f' + format, '-o' + os.path.join(BUILD_DIR, os.path.basename(name) + '.pvr')])		
+		format = 'OGL8888'
+		mipmap = ''
+		wrapMode = 'R'
+		filteringMode = 'B'
+
+		# Read meta information
+		with open(meta) as f:
+		    for line in f:
+		        args = line.split()
+		        if args[0] == 'FORMAT':
+		        	format = args[1]
+		        elif args[0] == 'MIPMAP':
+		        	if args[1] == 'On':
+		        		mipmap = '-m'
+		        elif args[0] == 'WRAPMODE':
+		        	wrapMode = args[1][0]
+		        elif args[0] == 'FILTERMODE':
+		        	filteringMode = args[1][0]
+
+		# Convert the file
+		img = meta[0:meta.rindex('.')]
+		pvrname = os.path.join(BUILD_DIR, os.path.basename(img[0:img.rindex('.')]) + '.pvr')
+
+		spawn([PVRTexTool, '-nt', '-yflip0', mipmap, '-i' + img, '-f' + format, '-oout.pvr'])
+
+		# Store the pvr data
+		pvrdat = ''
+		with open('out.pvr', 'rb') as f:
+			pvrdat = f.read();
+
+		# Output to target file
+		with open(pvrname, 'wb') as f:
+			f.write('TEXT')
+			f.write(wrapMode)
+			f.write(filteringMode)
+			f.write(pvrdat)
 
 if __name__ == "__main__":
 	main()

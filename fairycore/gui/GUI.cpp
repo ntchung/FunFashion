@@ -18,11 +18,7 @@ GUI::GUI()
 	
 	// Materials
 	Shader* guiFillRectShader = Resources::shared()->load<Shader>("core_gui_fillrect.shader");
-	guiFillRectShader->autorelease();
-
-	Material* guiFillRectMaterial = Material::create(0, guiFillRectShader);
-	guiFillRectMaterial->autorelease();
-
+	Material* guiFillRectMaterial = Material::create(0, guiFillRectShader);	
 	m_fillRectVertices = VertexList::create(guiFillRectMaterial);
 
 	// Unlike others, GUI drawing only needs one single queue

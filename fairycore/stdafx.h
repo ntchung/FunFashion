@@ -12,6 +12,7 @@
 #endif
 
 #include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 #include <math.h>
 #include <string.h>
 
@@ -19,6 +20,7 @@
 #include "platform/FileUtils.h"
 
 #include "maths/Mathf.h"
+#include "maths/Color32.h"
 #include "maths/Vector2f.h"
 #include "maths/Vector3f.h"
 #include "maths/Quaternion.h"
@@ -48,7 +50,7 @@
 #include "Shader.h"
 #include "Material.h"
 #include "Texture.h"
-#include "TextureCache.h"
+#include "RenderTexture.h"
 #include "VertexList.h"
 #include "RenderState.h"
 #include "RenderBatch.h"

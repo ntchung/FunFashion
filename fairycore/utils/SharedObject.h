@@ -3,6 +3,8 @@
 
 #include "utils/DynamicArray.h"
 
+class List;
+
 class SharedObject
 {
 public:
@@ -17,7 +19,12 @@ public:
 	static void autoReleaseGC();
 	static void autoReleasePurge();	
 
+	void setHashName(const char* name);
+	inline void setHashName(unsigned int value) { m_hashName = value; }
+	inline unsigned int hashName() const { return m_hashName; }
+
 private:
+	unsigned int m_hashName;
 	int m_referenceCount;
 	bool m_isAutoRelease;
 

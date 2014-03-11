@@ -47,7 +47,6 @@ RenderBatch::~RenderBatch()
 
 void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 {
-	Triangle* temp;
 	Triangle* p = (Triangle*)s_trianglesPool->allocate();
 
 	p->vertexList = vertexList;
@@ -61,9 +60,8 @@ void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 	switch (sortingType)
 	{
 	case TRIANGLES_SORT_NONE:
-		temp = trianglesList;
+		p->next = trianglesList;
 		trianglesList = p;
-		trianglesList->next = temp;
 		break;
 
 	case TRIANGLES_SORT_BACK_TO_FRONT:
@@ -76,9 +74,8 @@ void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 			const GLfloat z2 = m_camera->rotateVertexByView(p2).z;
 			p->maxZ = Mathf::Max(z0, z1, z2);
 	
-			Triangle* temp = trianglesList;
+			p->next = trianglesList;
 			trianglesList = p;
-			trianglesList->next = temp;			
 		}
 		break;
 
@@ -90,9 +87,8 @@ void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 			{
 				if (t->vertexList == vertexList)
 				{
-					temp = t;
+					p->next = t;
 					t = p;
-					t->next = temp;
 					break;
 				}
 				t = t->next;
@@ -101,9 +97,8 @@ void RenderBatch::addTriangle(VertexList* vertexList, int i0, int i1, int i2)
 			// Not found? Just add to head
 			if (!t)
 			{
-				temp = trianglesList;
+				p->next = trianglesList;
 				trianglesList = p;
-				trianglesList->next = temp;
 			}
 		}
 		break;
@@ -182,6 +177,11 @@ void RenderBatch::draw(Camera* camera, VertexList* vertexList, const GLushort* i
 		case ePVRTPFX_UsPOSITION:
 			glVertexAttribPointer(uniform.nLocation, 3, GL_FLOAT, GL_FALSE, 0, vertexList->m_positions);
 			glEnableVertexAttribArray(uniform.nLocation);			
+			break;
+
+		case ePVRTPFX_UsUV:
+			glVertexAttribPointer(uniform.nLocation, 2, GL_FLOAT, GL_FALSE, 0, vertexList->m_uvs);
+			glEnableVertexAttribArray(uniform.nLocation);
 			break;
 
 		case ePVRTPFX_UsVERTEXCOLOR:

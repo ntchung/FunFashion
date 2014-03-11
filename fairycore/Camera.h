@@ -11,6 +11,7 @@
 #include "maths/Rectf.h"
 
 class RenderBatch;
+class RenderTexture;
 
 class Camera : public SharedObject
 {
@@ -43,6 +44,9 @@ public:
 	inline ProjectType projectType() const { return m_projectType;  }
 	inline void setProjectType(ProjectType value) { m_projectType = value; m_isProjectionDirty = true; }
 
+	inline RenderTexture* renderTexture() const { return m_renderTexture;  }
+	void setRenderTexture(RenderTexture* rt);
+
 	RenderBatch* renderBatch(int queue);
 
 protected:
@@ -66,7 +70,9 @@ protected:
 	float m_zNear;
 	float m_zFar;
 
-	void buildOrthographicProjectionMatrix(Matrix4x4& mat, const Rectf& viewport, float size, float zNear, float zFar);
+	RenderTexture* m_renderTexture;
+
+	void buildOrthographicProjectionMatrix(Matrix4x4& mat, const Rectf& viewport, float size, float zNear, float zFar, bool flipY);
 };
 
 #endif // __CAMERA_H__

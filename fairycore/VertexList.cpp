@@ -89,6 +89,14 @@ void VertexList::addVerticesP(GLfloat* positions, int count)
 	m_count += count;
 }
 
+void VertexList::addVerticesPU(GLfloat* positions, GLfloat* uvs, int count)
+{
+	autoGrow(count);
+	memcpy(m_positions + m_count * 3, positions, count * 3 * sizeof(GLfloat));
+	memcpy(m_uvs + m_count * 2, uvs, count * 2 * sizeof(GLfloat));
+	m_count += count;
+}
+
 void VertexList::addVerticesPC(GLfloat* positions, GLubyte* vertexColors, int count)
 {
 	autoGrow(count);
